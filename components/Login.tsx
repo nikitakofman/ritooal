@@ -230,9 +230,9 @@ function Login() {
               Sign up
             </button>
           </form>
-          <button onClick={handleGoogleLogin} className="your-button-class">
+          {/* <button onClick={handleGoogleLogin} className="your-button-class">
             Login with Google
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="h-full">

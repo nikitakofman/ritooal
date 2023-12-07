@@ -17,9 +17,9 @@ const DropDownProfile = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
       className="flex flex-col text-sm border border-gray-300 rounded-lg dropDownProfile shadow-xl bg-white"
     >
       <ul className="flex flex-col w-full">
-        <li className=" cursor-pointer border-b border-gray-300">
+        {/* <li className=" cursor-pointer border-b border-gray-300">
           <p className="p-3 hover:text-neutral-400">Profile</p>
-        </li>
+        </li> */}
         <li
           className="cursor-pointer  hover:text-neutral-400"
           onClick={handleLogout}

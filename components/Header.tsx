@@ -77,11 +77,11 @@ function Header() {
     }
   }
 
-  // useEffect(() => {
-  //   if (!loadingUser && user === null) {
-  //     window.location.href = "/";
-  //   }
-  // }, [user, loadingUser]);
+  useEffect(() => {
+    if (!loadingUser && user === null) {
+      window.location.href = "/";
+    }
+  }, [user, loadingUser]);
 
   async function handleLogout() {
     try {
@@ -143,17 +143,19 @@ function Header() {
                 alt="Ritooal Logo"
                 width={300}
                 height={100}
-                className="w-24 md:w-24 pb-5 md:pb-0 object-contain"
+                className="w-24 md:w-24 pb-3 md:pb-0 object-contain"
               />
             </div>
             <div
-              className="flex cursor-pointer hover:text-neutral-200 "
+              className="flex cursor-pointer hover:text-neutral-500 "
               onClick={() => setOpenProfile((prev) => !prev)}
             >
-              {/* <p className="mr-2">{user.email}</p> */}
+              <p className="mr-2 italic flex md:hidden text-[14px]">
+                {user.email}
+              </p>
               <FontAwesomeIcon
                 icon={faUser}
-                className="h-5 w-5 pb-5 flex md:hidden ml-3 pr-5 "
+                className="h-5 w-5 pb-3 flex md:hidden ml-1 pr-5 "
               />
             </div>
           </div>
@@ -180,10 +182,12 @@ function Header() {
                 className="flex cursor-pointer hover:text-neutral-500"
                 onClick={() => setOpenProfile((prev) => !prev)}
               >
-                {/* <p className="mr-2">{user.email}</p> */}
+                <p className="mr-2 italic hidden md:flex text-[14px]">
+                  {user.email}
+                </p>
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="h-5 w-5 hidden md:flex ml-3 pr-5 "
+                  className="h-5 w-5 hidden md:flex ml-1 pr-5 "
                 />
               </div>
               {openProfile && <DropDownProfile ref={dropdownRef} />}
