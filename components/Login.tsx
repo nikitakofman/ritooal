@@ -192,8 +192,8 @@ function Login() {
       "google", // Provider
       // `ritooal.com/auth/page`, // Success URL
       // `ritooal.com` // Failure URL
-      `https://www.ritooal.com/auth/success`, // Success URL
-      `https://www.ritooal.com/auth/failure` // Failure URL
+      `/auth/page`, // Success URL
+      `/` // Failure URL
     );
   };
 
