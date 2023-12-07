@@ -188,11 +188,12 @@ function Login() {
   }
 
   const handleGoogleLogin = () => {
-    account.createOAuth2Session(
-      "google" // Provider
-      // `ritooal.com/auth/page`, // Success URL
-      // `ritooal.com` // Failure URL
-    );
+    // account.createOAuth2Session(
+    //   "google" // Provider
+    //   // `ritooal.com/auth/page`, // Success URL
+    //   // `ritooal.com` // Failure URL
+    // );
+    window.location.href = "/auth/page";
   };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
