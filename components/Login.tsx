@@ -189,9 +189,11 @@ function Login() {
 
   const handleGoogleLogin = () => {
     account.createOAuth2Session(
-      "google" // Provider
+      "google", // Provider
       // `ritooal.com/auth/page`, // Success URL
       // `ritooal.com` // Failure URL
+      `https://www.ritooal.com/auth/success`, // Success URL
+      `https://www.ritooal.com/auth/failure` // Failure URL
     );
   };
 
