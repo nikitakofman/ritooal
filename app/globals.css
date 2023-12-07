@@ -1,27 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Acme&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Catamaran:wght@100;200;300;400;500;600;700;800;900&family=Gothic+A1:wght@100;200;300;400;500;600;700;800;900&family=Handlee&family=Indie+Flower&family=Noto+Sans+Display:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Sans+Caption:wght@400;700&family=Playpen+Sans&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  background-color: #f5f1ee;
+  font-family: Open Sans;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.animateSpin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@keyframes appearThenTranslate {
+  0%,
+  50% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  51% {
+    opacity: 0.2;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(
+      0.5rem,
+      -0.5rem
+    ); /* Adjust translation values as needed */
+  }
+}
+
+.dropDownProfile {
+  position: absolute;
+  top: 4rem;
+  right: 0.96rem;
+  width: 100px;
+
+  border-radius: 2px;
+  background-color: #fffdfc;
+  color: #345d78;
+}
+
+.dropDownProfile::before {
+  content: "";
+  position: absolute;
+  top: -0.7rem;
+  right: 1rem;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background-color: #fffdfc;
+  border-left: 1px solid #d1d5db;
+  border-top: 1px solid #d1d5db;
+}
+
+.swal2-popup {
+  line-height: 1.5;
 }
