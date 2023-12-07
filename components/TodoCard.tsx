@@ -24,10 +24,24 @@ type Props = {
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 };
 
+function getCardColor(importance) {
+  switch (importance) {
+    case "important":
+      return "bg-[#E16A62]"; // or any red shade
+    case "semi-important":
+      return "bg-[#E7C570]"; // or any orange shade
+    case "not-important":
+      return "bg-[#B2D4AC]"; // or any yellow shade
+    default:
+      return "bg-white"; // default color
+  }
+}
+
 function TodoCard({
   todo,
   index,
   id,
+
   innerRef,
   draggableProps,
   dragHandleProps,
@@ -207,7 +221,23 @@ function TodoCard({
     Swal.fire({
       title: "Edit Task",
       html: ` 
-        <textarea id="swal-input1" class="w-full bg-none border-2 border-black/10 rounded-xl h-40 p-5">${todo.title}</textarea>
+        <textarea id="swal-input1" class="w-full bg-none border-2 border-black/10 rounded-xl h-40 p-5">${
+          todo.title
+        }</textarea>
+        <div>
+        <label>Importance:</label>
+        <select id="importance-select" class="w-full mt-2">
+          <option value="important" ${
+            todo.importance === "important" ? "selected" : ""
+          }>Important</option>
+          <option value="semi-important" ${
+            todo.importance === "semi-important" ? "selected" : ""
+          }>Semi-Important</option>
+          <option value="not-important" ${
+            todo.importance === "not important" ? "selected" : ""
+          }>Not Important</option>
+        </select>
+      </div>
         <div class="flex items-center flex-col justify-center">
         <div id="imagePreviewContainer" class="flex items-center justify-center" style="margin-top: 10px; display: none;">
           <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; max-height: 200px;">
@@ -231,12 +261,21 @@ function TodoCard({
         const inputElement = document.getElementById(
           "swal-input1"
         ) as HTMLInputElement;
-        if (inputElement) {
+        const importanceSelect = document.getElementById(
+          "importance-select"
+        ) as HTMLSelectElement; // Add this line
+        if (inputElement && importanceSelect) {
           const newTitle = inputElement.value;
+          const newImportance = importanceSelect.value;
           if (newTitle && newTitle !== todo.title) {
             await useBoardStore
               .getState()
               .updateTaskTitleInDB(todo.$id, newTitle);
+          }
+          if (newImportance && newImportance !== todo.importance) {
+            await useBoardStore
+              .getState()
+              .updateTaskImportanceInDB(todo.$id, newImportance);
           }
           if (uploadedFile) {
             const upload: any = await useBoardStore
@@ -317,7 +356,9 @@ function TodoCard({
 
   return (
     <div
-      className="group bg-white hover:bg-[#365C7E]/10 rounded-md space-y-2 drop-shadow-md"
+      className={`group ${getCardColor(
+        todo.importance
+      )} hover:bg-[#365C7E]/10 rounded-md space-y-2 drop-shadow-md`}
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}

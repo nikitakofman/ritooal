@@ -22,7 +22,7 @@ export default async function handler(
             role: "user",
             content: `Based on the numbers of done, in progress, and todo in the following data: ${JSON.stringify(
               todos
-            )} tell the user the appropriate things and encourage/motivate them, aswell as give productivity tip. make it max 2 or 3 sentences. If there is 0 completed and 0 done tasks, just encourage them.`,
+            )} tell the user the appropriate things and encourage/motivate them, aswell as give productivity tip. make it max 2 or 3 sentences. If there is 0 tasks done, do not talk about done tasks.`,
           },
         ],
         model: "gpt-3.5-turbo",

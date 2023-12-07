@@ -10,9 +10,12 @@ import Image from "next/image";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailCreate, setEmailCreate] = useState("");
+  const [passwordCreate, setPasswordCreate] = useState("");
   const [user, setUser] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function getUser() {
@@ -72,11 +75,36 @@ function Login() {
     }
   }
 
+  async function handleLoginCreate() {
+    try {
+      setLoadingUser(true);
+      await account.createEmailSession(emailCreate, passwordCreate);
+
+      setUser(await account.get());
+      setEmail("");
+      setPassword("");
+      window.location.href = "/dashboard";
+    } catch (e) {
+      setLoadingUser(false);
+      console.error(e);
+      toast.error(e.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
   async function handleRegister() {
     try {
       setLoadingUser(true);
-      await account.create(ID.unique(), email, password);
-      await handleLogin();
+      await account.create(ID.unique(), emailCreate, passwordCreate);
+      await handleLoginCreate();
     } catch (e) {
       setLoadingUser(false);
       console.error(e);
@@ -167,6 +195,10 @@ function Login() {
     );
   };
 
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+
+  console.log(emailCreate);
+
   return (
     <div
       className="flex justify-between p-2 flex-col md:flex-row items-center  bg-[#F8F0E5]"
@@ -198,7 +230,7 @@ function Login() {
       <div className="p-6  w-full flex items-center justify-center">
         <div className="w-full max-w-md  p-10 rounded-3xl ">
           <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
-            Your account
+            Welcome to Ritooal
           </div>
           <form className="flex flex-col space-y-4">
             <input
@@ -222,19 +254,63 @@ function Login() {
             >
               Sign in
             </button>
-            <button
-              type="button"
-              onClick={handleRegister}
-              className="h-10 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-            >
-              Sign up
-            </button>
+            <div className="flex text-sm flex-col md:flex-row items-center justify-center">
+              <p>No account yet?</p>
+              <button
+                type="button"
+                onClick={toggleModal}
+                className="h-10  text-[#315E80] hover:text-gray-400 ml-1 text-sm rounded-md focus:outline-none "
+              >
+                Create your account
+              </button>
+            </div>
           </form>
           {/* <button onClick={handleGoogleLogin} className="your-button-class">
             Login with Google
           </button> */}
         </div>
       </div>
+      {isModalOpen && (
+        <div
+          className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75 z-50"
+          onClick={toggleModal}
+        >
+          <div
+            className="bg-[#FFFDFC] p-8 max-w-7xl flex flex-col items-center justify-center rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+              Create your account
+            </div>
+            <form className="flex flex-col w-9/12 space-y-4">
+              <input
+                type="email"
+                placeholder="Email"
+                value={emailCreate}
+                onChange={(e) => setEmailCreate(e.target.value)}
+                className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={passwordCreate}
+                onChange={(e) => setPasswordCreate(e.target.value)}
+                className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
+              />
+              <button
+                type="button"
+                onClick={handleRegister}
+                className="h-10 bg-[#22C55D] text-white rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              >
+                Sign up
+              </button>
+            </form>
+            {/* <button onClick={handleGoogleLogin} className="your-button-class">
+              Login with Google
+            </button> */}
+          </div>
+        </div>
+      )}
       <div className="h-full">
         {" "}
         <div className="h-full">

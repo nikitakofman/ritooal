@@ -8,6 +8,8 @@ export const getTodosGroupedByColumn = async (currentUserId: string) => {
 
   const todos = data.documents.filter((todo) => todo.userId === currentUserId);
 
+  console.log(todos);
+
   const columns = todos.reduce((acc, todo) => {
     if (!acc.get(todo.status)) {
       acc.set(todo.status, {
@@ -20,6 +22,7 @@ export const getTodosGroupedByColumn = async (currentUserId: string) => {
       $id: todo.$id,
       $createdAt: todo.$createdAt,
       $updatedAt: todo.$updatedAt,
+      importance: todo.importance,
       title: todo.title,
       status: todo.status,
       ...(todo.image && { image: JSON.parse(todo.image) }),

@@ -27,6 +27,10 @@ interface BoardState {
   setUserId: (input: string) => void;
   updateTaskTitleInDB: (todoId: string, newTitle: string) => Promise<void>;
   updateTaskImageInDB: (todoId: string, imageFile: File) => Promise<void>;
+  updateTaskImportanceInDB: (
+    todoId: string,
+    newImportance: string
+  ) => Promise<void>;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -113,6 +117,39 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       });
     } catch (error) {
       console.error("Error updating task title:", error);
+      // Handle error appropriately (e.g., show error message to user)
+    }
+  },
+
+  updateTaskImportanceInDB: async (todoId: string, newImportance: string) => {
+    try {
+      // Update the task's importance in the Appwrite database
+      await databases.updateDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID!,
+        process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
+        todoId,
+        { importance: newImportance }
+      );
+
+      // Update the local state with the new importance
+      set((state) => {
+        const newColumns = new Map(state.board.columns);
+
+        // Iterate over each column and their todos to find and update the specific todo
+        for (let [columnId, column] of newColumns.entries()) {
+          const todoIndex = column.todos.findIndex(
+            (todo) => todo.$id === todoId
+          );
+          if (todoIndex !== -1) {
+            column.todos[todoIndex].importance = newImportance;
+            break; // Stop the loop once the todo is found and updated
+          }
+        }
+
+        return { board: { columns: newColumns } };
+      });
+    } catch (error) {
+      console.error("Error updating task importance:", error);
       // Handle error appropriately (e.g., show error message to user)
     }
   },
