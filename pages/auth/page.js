@@ -1,29 +1,27 @@
 import { useState, useEffect } from "react";
 import { account } from "@/appwrite";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 const AuthCallback = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-  console.log("hello");
 
   useEffect(() => {
     async function handleOAuthResponse() {
       try {
         const session = await account.getOAuth2Session();
         console.log(session);
-        setIsLoading(false);
-        router.push("/dashboard"); // Use Next.js router for redirection
+        setIsLoading(true);
+        console.log(isLoading);
+        window.location.href = "/dashboard";
       } catch (error) {
         console.error("OAuth error:", error);
         setIsLoading(false);
-        router.push("/"); // Use Next.js router for redirection
+        window.location.href = "/";
       }
     }
 
     handleOAuthResponse();
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-[#F8F0E5]">
