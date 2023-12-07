@@ -190,14 +190,12 @@ function Login() {
   const handleGoogleLogin = () => {
     account.createOAuth2Session(
       "google", // Provider
-      `${window.location.origin}/auth`, // Success URL
+      `${window.location.origin}/auth/page`, // Success URL
       `${window.location.origin}/` // Failure URL
     );
   };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  console.log(emailCreate);
 
   return (
     <div
@@ -230,27 +228,41 @@ function Login() {
       <div className="p-6  w-full flex items-center justify-center">
         <div className="w-full max-w-md  p-10 rounded-3xl ">
           <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
-            Welcome to Ritooal
+            Welcome
           </div>
-          <form className="flex flex-col space-y-4">
+          <div className="flex flex-col items-center justify-center">
+            <div
+              className="border-gray-200 rounded-full min-w-[184px] hover:bg-gray-100  cursor-pointer flex items-center justify- shadow-md border bg-white w-6/12"
+              onClick={handleGoogleLogin}
+            >
+              <img src="/google.png" className="h-8 p-1 w-8" />
+              <p className="text-xs ml-2 text-gray-600">Connect with Google</p>
+            </div>
+            <div className="flex w-[267px] mt-6 mb-6 items-center justify-center">
+              <div className="flex-grow h-px bg-gray-300"></div>
+              <p className="mx-2 text-sm text-gray-600 ml-5 mr-5">or</p>
+              <div className="flex-grow h-px bg-gray-300"></div>
+            </div>
+          </div>
+          <form className="flex items-center flex-col space-y-4">
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
+              className="h-10 p-3 space-x-5 bg-white min-w-[270px] rounded-md border-2  outline-none"
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
+              className="h-10 p-3 space-x-5 bg-white min-w-[270px] rounded-md border-2  outline-none"
             />
             <button
               type="button"
               onClick={handleLogin}
-              className="h-10 bg-[#53B0DB] text-white rounded-md hover:bg-[#4BA0C8] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="h-10 bg-[#53B0DB] min-w-[270px] text-white rounded-md hover:bg-[#4BA0C8] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
               Sign in
             </button>
@@ -276,43 +288,56 @@ function Login() {
           onClick={toggleModal}
         >
           <div
-            className="bg-[#FFFDFC] p-8 max-w-7xl flex flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
-              Create your account
+            <div className="flex items-center w-full justify-center">
+              <Image
+                width={400}
+                height={100}
+                alt="Create ritooal account"
+                src="/createacc.png"
+              />
             </div>
-            <form className="flex flex-col w-9/12 space-y-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={emailCreate}
-                onChange={(e) => setEmailCreate(e.target.value)}
-                className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
+            <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
+              <Image
+                src="/ritooallogo.png"
+                alt="Ritooal Logo"
+                width={300}
+                height={100}
+                className="w-40 mb-3 md:mb-10 md:flex hidden object-contain"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                value={passwordCreate}
-                onChange={(e) => setPasswordCreate(e.target.value)}
-                className="h-10 p-3 space-x-5 bg-white rounded-md border-2  outline-none"
-              />
-              <button
-                type="button"
-                onClick={handleRegister}
-                className="h-10 bg-[#22C55D] text-white rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-              >
-                Sign up
-              </button>
-            </form>
-            {/* <button onClick={handleGoogleLogin} className="your-button-class">
-              Login with Google
-            </button> */}
+              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+                Create your account
+              </div>
+              <form className="flex flex-col items-center w-9/12 space-y-4">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={emailCreate}
+                  onChange={(e) => setEmailCreate(e.target.value)}
+                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={passwordCreate}
+                  onChange={(e) => setPasswordCreate(e.target.value)}
+                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleRegister}
+                  className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Sign up
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}
       <div className="h-full">
-        {" "}
         <div className="h-full">
           <Image
             src="/introtask.png"

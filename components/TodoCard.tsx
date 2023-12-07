@@ -32,6 +32,8 @@ function getCardColor(importance) {
       return "bg-[#E7C570]"; // or any orange shade
     case "not-important":
       return "bg-[#B2D4AC]"; // or any yellow shade
+    case "no-color":
+      return "bg-white"; // No color
     default:
       return "bg-white"; // default color
   }
@@ -73,7 +75,6 @@ function TodoCard({
     hour: "2-digit", // e.g., 02
     minute: "2-digit", // e.g., 47
     second: "2-digit", // e.g., 36
-    timeZoneName: "short", // e.g., EST, PDT
   };
 
   useEffect(() => {
@@ -85,7 +86,6 @@ function TodoCard({
       hour: "2-digit", // e.g., 02
       minute: "2-digit", // e.g., 47
       second: "2-digit", // e.g., 36
-      timeZoneName: "short", // e.g., EST, PDT
     };
 
     const date = new Date(todo.$createdAt);
@@ -119,6 +119,7 @@ function TodoCard({
       confirmButtonColor: "#ED5E68",
       cancelButtonColor: "#6E7881",
       confirmButtonText: "Yes, delete it!",
+      showCloseButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
         deleteTask(index, todo, id);
@@ -160,6 +161,7 @@ function TodoCard({
       showConfirmButton: false,
       confirmButtonText: "Close",
       confirmButtonColor: "#3085d6",
+      showCloseButton: true,
       showCancelButton: true,
       showClass: {
         popup: `
@@ -187,6 +189,17 @@ function TodoCard({
 
           // Insert the edit button before the confirm button
           confirmButton.parentNode.insertBefore(editButton, confirmButton);
+        }
+
+        if (modalElement) {
+          const focusableElements = modalElement.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusableElements.length > 0) {
+            // Optionally focus on a specific element, or remove focus entirely
+            // focusableElements[0].focus(); // Focus on the first focusable element
+            focusableElements[0].blur(); // Remove focus from the first focusable element
+          }
         }
 
         // Check if the parentNode of confirmButton is not null
@@ -221,30 +234,37 @@ function TodoCard({
     Swal.fire({
       title: "Edit Task",
       html: ` 
+      <select id="importance-select" class="ml-2 mb-5 border border-gray-300 p-1 rounded-xl">
+      <option value="important" ${
+        todo.importance === "important" ? "selected" : ""
+      }>Important</option>
+      <option value="semi-important" ${
+        todo.importance === "semi-important" ? "selected" : ""
+      }>Semi-Important</option>
+      <option value="not-important" ${
+        todo.importance === "not important" ? "selected" : ""
+      }>Low importance</option>
+      <option value="no-color" ${
+        todo.importance === null ? "selected" : ""
+      }>Default</option>
+
+
+    </select>
         <textarea id="swal-input1" class="w-full bg-none border-2 border-black/10 rounded-xl h-40 p-5">${
           todo.title
         }</textarea>
         <div>
-        <label>Importance:</label>
-        <select id="importance-select" class="w-full mt-2">
-          <option value="important" ${
-            todo.importance === "important" ? "selected" : ""
-          }>Important</option>
-          <option value="semi-important" ${
-            todo.importance === "semi-important" ? "selected" : ""
-          }>Semi-Important</option>
-          <option value="not-important" ${
-            todo.importance === "not important" ? "selected" : ""
-          }>Not Important</option>
-        </select>
+      
+      
       </div>
         <div class="flex items-center flex-col justify-center">
-        <div id="imagePreviewContainer" class="flex items-center justify-center" style="margin-top: 10px; display: none;">
-          <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; max-height: 200px;">
-        </div>
-        <div class="w-full border-2 border-black/10 rounded-lg mt-4 hover:bg-neutral-400/10">
-        <button type="button" id="uploadButton" class=" py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2">Upload image</p></button>
         
+        <div class="w-full border-2 border-black/10 rounded-lg mt-4 hover:bg-neutral-400/10">
+        <button type="button" id="uploadButton" class="mb-2 py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2">Upload image</p></button>
+        
+        </div>
+        <div id="imagePreviewContainer" class="flex items-center justify-center mt-2" style="margin-top: 10px; display: none;">
+          <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; max-height: 200px;">
         </div>
         <input type="file" id="imageUpload" hidden>
         <div id="loadingSpinner" style="display: none; margin-top: 10px;">
@@ -256,6 +276,7 @@ function TodoCard({
       confirmButtonText: "Save",
       cancelButtonText: "Cancel",
       confirmButtonColor: "#53B0DB",
+      showCloseButton: true,
 
       preConfirm: async () => {
         const inputElement = document.getElementById(
@@ -263,16 +284,21 @@ function TodoCard({
         ) as HTMLInputElement;
         const importanceSelect = document.getElementById(
           "importance-select"
-        ) as HTMLSelectElement; // Add this line
+        ) as HTMLSelectElement;
+
         if (inputElement && importanceSelect) {
           const newTitle = inputElement.value;
-          const newImportance = importanceSelect.value;
+          const newImportance =
+            importanceSelect.value !== "no-color"
+              ? importanceSelect.value
+              : null;
+
           if (newTitle && newTitle !== todo.title) {
             await useBoardStore
               .getState()
               .updateTaskTitleInDB(todo.$id, newTitle);
           }
-          if (newImportance && newImportance !== todo.importance) {
+          if (newImportance !== todo.importance) {
             await useBoardStore
               .getState()
               .updateTaskImportanceInDB(todo.$id, newImportance);

@@ -6,6 +6,8 @@ export const getTodosGroupedByColumn = async (currentUserId: string) => {
     process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!
   );
 
+  console.log(currentUserId);
+
   const todos = data.documents.filter((todo) => todo.userId === currentUserId);
 
   console.log(todos);
