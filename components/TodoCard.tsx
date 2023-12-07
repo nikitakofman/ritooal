@@ -288,7 +288,7 @@ function TodoCard({
 
         if (inputElement && importanceSelect) {
           const newTitle = inputElement.value;
-          const newImportance =
+          const newImportance: any =
             importanceSelect.value !== "no-color"
               ? importanceSelect.value
               : null;
