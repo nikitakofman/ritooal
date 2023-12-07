@@ -190,8 +190,8 @@ function Login() {
   const handleGoogleLogin = () => {
     account.createOAuth2Session(
       "google", // Provider
-      `https://www.ritual.com/auth/page`, // Success URL
-      `https://www.ritual.com/` // Failure URL
+      `${window.location.origin}/auth/page`, // Success URL
+      `${window.location.origin}/` // Failure URL
     );
   };
 
