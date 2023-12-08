@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       {
         method: "POST",
         headers: headers,
-        body: '{"userId": "657390d77400749428bd"}',
+        body: requestBody,
       }
     );
 
