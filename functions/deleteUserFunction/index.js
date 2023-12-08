@@ -1,6 +1,7 @@
 const { Client, Account, Users } = require("node-appwrite");
 
 module.exports = async function ({ req, res, log, error }) {
+  log(`Raw request body: ${req.body}`);
   log(`Request Body: ${JSON.stringify(req.body)}`);
 
   // Initialize the Appwrite client
