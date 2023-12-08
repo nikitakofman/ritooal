@@ -17,11 +17,11 @@ module.exports = async function (request, context) {
   try {
     const userId = request.payload.userId;
 
-    console.log(`Attempting to delete user with ID: ${userId}`);
+    log(`Attempting to delete user with ID: ${userId}`);
 
     let result = await users.delete(userId);
 
-    console.log(`Deletion result: ${JSON.stringify(result)}`);
+    log(`Deletion result: ${JSON.stringify(result)}`);
 
     return {
       message: "User deleted successfully",
