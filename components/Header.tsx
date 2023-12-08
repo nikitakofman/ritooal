@@ -174,7 +174,7 @@ function Header() {
           // Replace this URL with your Appwrite function's endpoint
           const functionEndpoint =
             "https://cloud.appwrite.io/v1/functions/65734ae52ec9790d02eb/executions";
-
+          console.log(userId);
           const response = await fetch("/api/deleteUser", {
             method: "POST",
             headers: {

@@ -1,22 +1,27 @@
-const { Client, Account, Users } = require("node-appwrite");
+const { Client, Users } = require("node-appwrite");
 
 module.exports = async function ({ req, res, log, error }) {
-  log(`Raw request body: ${req.body}`);
-  log(`Request Body: ${JSON.stringify(req.body)}`);
-
-  // Initialize the Appwrite client
   const client = new Client();
-  const account = new Account(client);
-  const users = new Users(client);
-
   client
     .setEndpoint("https://cloud.appwrite.io/v1")
     .setProject(process.env.APPWRITE_PROJECT_ID)
     .setKey(process.env.APPWRITE_API_KEY);
 
+  const users = new Users(client);
+
   try {
-    // Parse the JSON string in req.body
-    const parsedBody = JSON.parse(req.body);
+    // Ensure the body is parsed correctly
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(req.body);
+    } catch (parseError) {
+      error(`Error parsing request body: ${parseError.message}`);
+      return res.json({
+        message: "Error parsing request body",
+        error: parseError.message,
+      });
+    }
+
     const userId = parsedBody.userId;
     log(`Received userId: ${userId}`);
 
