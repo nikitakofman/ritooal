@@ -1,4 +1,4 @@
-import { Client, Account } from "node-appwrite";
+const { Client, Account } = require("node-appwrite");
 
 module.exports = async function (request, response) {
   console.log("Function is invoked");
@@ -21,13 +21,13 @@ module.exports = async function (request, response) {
     let result = await account.delete(userId);
 
     // Return a success response
-    return response.json({
+    response.json({
       message: "User deleted successfully",
       result: result,
     });
   } catch (error) {
     // Return an error response if something goes wrong
-    return response.json({
+    response.json({
       message: "Failed to delete the user",
       error: error.message,
     });
