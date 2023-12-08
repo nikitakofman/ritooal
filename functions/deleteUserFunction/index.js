@@ -24,7 +24,6 @@ module.exports = async function (request, context) {
     };
   } catch (error) {
     // Use context.error for error logs
-    context.log(error);
     return {
       message: "Failed to delete the user",
       error: error.message,
