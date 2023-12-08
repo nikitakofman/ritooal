@@ -1,6 +1,6 @@
 const { Client, Account, Users } = require("node-appwrite");
 
-module.exports = async function (request, log, error) {
+module.exports = async function ({ req, res, log, error }) {
   // Initialize the Appwrite client
   const client = new Client();
 
@@ -12,10 +12,10 @@ module.exports = async function (request, log, error) {
   const users = new Users(client);
 
   try {
-    const userId = request.payload.userId;
+    const userId = req.body.userId;
     log(`Attempting to delete user with ID: ${userId}`);
 
-    let result = await users.delete(userId);
+    const result = await users.delete(userId);
     log(`Deletion result: ${JSON.stringify(result)}`);
 
     return {
@@ -23,7 +23,7 @@ module.exports = async function (request, log, error) {
       result: result,
     };
   } catch (err) {
-    // error(`Failed to delete the user: ${err.message}`);
+    // error(Failed to delete the user: ${err.message});
     return {
       message: "Failed to delete the user",
       error: err.message,
