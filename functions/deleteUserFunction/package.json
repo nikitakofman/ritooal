@@ -1,0 +1,9 @@
+{
+  "name": "deleteuserfunction",
+  "version": "1.0.0",
+  "description": "A function to delete a user in Appwrite.",
+  "main": "index.js",
+  "dependencies": {
+    "node-appwrite": "11.1.0"
+  }
+}
