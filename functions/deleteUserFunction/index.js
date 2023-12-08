@@ -1,4 +1,4 @@
-const { Client, Account } = require("node-appwrite");
+import { Client, Account } from "node-appwrite";
 
 module.exports = async function (request, response) {
   console.log("Function is invoked");
