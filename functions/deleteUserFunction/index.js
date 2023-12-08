@@ -1,6 +1,8 @@
 const { Client, Users } = require("node-appwrite");
 
 module.exports = async function ({ req, res, log, error }) {
+  log(`Raw request body: ${req.body}`);
+
   const client = new Client();
   client
     .setEndpoint("https://cloud.appwrite.io/v1")
