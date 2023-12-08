@@ -183,6 +183,8 @@ function Header() {
             body: JSON.stringify({ userId: userId }),
           });
 
+          console.log("Payload:", JSON.stringify({ userId: userId }));
+
           if (!response.ok) {
             throw new Error("Failed to delete account");
           }

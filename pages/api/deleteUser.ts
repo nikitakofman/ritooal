@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const userId = req.body.userId;
+  const userId = "657390d77400749428bd";
   console.log("Deleting user with ID:", userId);
 
   const headers = {
