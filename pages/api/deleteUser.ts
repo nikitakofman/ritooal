@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(req.body),
+        body: JSON.stringify({ userId }),
       }
     );
 
