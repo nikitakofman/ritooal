@@ -190,8 +190,8 @@ function Login() {
   const handleGoogleLogin = () => {
     account.createOAuth2Session(
       "google", // Provider
-      `ritooal.com/auth/page`,
-      `ritooal.com/`
+      `https://ritooal.com/auth/page`,
+      `https://ritooal.com/`
     );
   };
 
