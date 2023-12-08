@@ -1,4 +1,4 @@
-const { Client, Account } = require("node-appwrite");
+const { Client, Account, Users } = require("node-appwrite");
 
 module.exports = async function (request, context) {
   // Use context.log for standard logs
@@ -12,11 +12,11 @@ module.exports = async function (request, context) {
     .setProject(process.env.APPWRITE_PROJECT_ID)
     .setKey(process.env.APPWRITE_API_KEY); // Your Appwrite API key with permissions
 
-  const account = new Account(client);
+  const users = new Users(client);
 
   try {
     const userId = request.payload.userId;
-    let result = await account.delete(userId);
+    let result = await users.delete(userId);
 
     return {
       message: "User deleted successfully",
@@ -24,7 +24,7 @@ module.exports = async function (request, context) {
     };
   } catch (error) {
     // Use context.error for error logs
-
+    context.log(error);
     return {
       message: "Failed to delete the user",
       error: error.message,
