@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       "https://cloud.appwrite.io/v1/functions/65734ae49c41205b0552/executions",
       {
         method: "POST",
-        headers: headers,
+        headers: "hello",
         body: requestBody,
       }
     );
