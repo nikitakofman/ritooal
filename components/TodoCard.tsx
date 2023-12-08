@@ -260,7 +260,7 @@ function TodoCard({
         <div class="flex items-center flex-col justify-center">
         
         <div class="w-full border-2 border-black/10 rounded-lg mt-4 hover:bg-neutral-400/10">
-        <button type="button" id="uploadButton" class="mb-2 py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2">Upload image</p></button>
+        <button type="button" id="uploadButton" class="py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2">Upload image</p></button>
         
         </div>
         <div id="imagePreviewContainer" class="flex items-center justify-center mt-2" style="margin-top: 10px; display: none;">
