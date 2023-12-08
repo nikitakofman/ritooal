@@ -1,32 +1,33 @@
 const { Client, Account, Users } = require("node-appwrite");
 
 module.exports = async function ({ req, res, log, error }) {
+  // Initialize the Appwrite client
   const client = new Client();
+  const account = new Account(client);
+  const users = new Users(client);
+
   client
     .setEndpoint("https://cloud.appwrite.io/v1")
     .setProject(process.env.APPWRITE_PROJECT_ID)
     .setKey(process.env.APPWRITE_API_KEY);
 
-  const users = new Users(client);
-
   try {
-    const payload = JSON.parse(req.body);
-    const userId = payload.userId;
-
-    log(`Received request to delete user ID: ${userId}`);
+    // Access userId directly from the request body
+    const userId = req.body.userId;
+    log(`Received userId: ${userId}`);
 
     const result = await users.delete(userId);
     log(`User deleted successfully: ${JSON.stringify(result)}`);
 
-    return {
+    return res.json({
       message: "User deleted successfully",
       result: result,
-    };
+    });
   } catch (err) {
     error(`Failed to delete the user: ${err.message}`);
-    return {
+    return res.json({
       message: "Failed to delete the user",
       error: err.message,
-    };
+    });
   }
 };
