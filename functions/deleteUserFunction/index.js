@@ -2,7 +2,6 @@ const { Client, Account } = require("node-appwrite");
 
 module.exports = async function (request, context) {
   // Use context.log for standard logs
-  context.log("Function is invoked");
 
   // Initialize the Appwrite client
   const client = new Client();
@@ -23,7 +22,6 @@ module.exports = async function (request, context) {
     };
   } catch (error) {
     // Use context.error for error logs
-    context.error(error.message);
 
     return {
       message: "Failed to delete the user",
