@@ -18,7 +18,11 @@ module.exports = async function ({ req, res, log, error }) {
       parsedBody = JSON.parse(req.body);
     } catch (parseError) {
       error(
-        `Error parsing request body: ${parseError.mesfsage}, ${req.body} ${parsedBody} ${req} "hello"`
+        `Error parsing request body: ${parseError.message}, ${
+          req.body
+        } ${parsedBody} ${req} Jsonstringify req result:  ${JSON.stringify(
+          req
+        )} "hello"`
       );
       return res.json({
         message: "Error parsing request body",

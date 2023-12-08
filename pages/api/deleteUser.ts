@@ -12,8 +12,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const requestBody = JSON.stringify({ userId });
-    console.log(requestBody);
+    const requestBody = JSON.stringify({ userId: "657390d77400749428bd" });
+    console.log("Sending Request Body:", requestBody);
 
     const response = await fetch(
       "https://cloud.appwrite.io/v1/functions/65734ae49c41205b0552/executions",
