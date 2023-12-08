@@ -372,17 +372,12 @@ function Header() {
                   </>
                 )}
 
-                <p
-                  className="mt-4 font-light cursor-pointer"
-                  onClick={deleteAccount}
-                >
-                  Delete account
-                </p>
+                <p className="mt-4 font-light cursor-pointer">Delete account</p>
               </div>
             </div>
             <div className="flex items-center w-full justify-center">
               <Image
-                width={400}
+                width={300}
                 height={100}
                 alt="Change ritooal profile details"
                 src="/profile.png"
