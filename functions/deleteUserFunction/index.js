@@ -1,37 +1,22 @@
-const { Client, Users } = require("node-appwrite");
+const { Client, Account, Users } = require("node-appwrite");
 
 module.exports = async function ({ req, res, log, error }) {
   log(`Raw request body: ${req.body}`);
+  log(`Request Body: ${JSON.stringify(req.body)}`);
 
+  // Initialize the Appwrite client
   const client = new Client();
-  client
-    .setEndpoint("https://cloud.appwrite.io/v1")
-    .setProject("656b02880083dd7e9d6c")
-    .setKey(
-      "7ee6413de7c9224361723dc689753a5152b5e33895526042ced810a574e0452ba8c757839a54ab5a65d28a0c92854b7432a4615ef65a03b10d707f9fcfcaa50cca9b799fd65aa20105c14b5a1bcce0a2679442cc48cc70cdc9bbcc15b8a1933e849cc06646ffda33f2a51e56f87b052fd6abd1e936d2bde6f9d59f6083c0e115"
-    );
-
+  const account = new Account(client);
   const users = new Users(client);
 
-  try {
-    // Ensure the body is parsed correctly
-    let parsedBody;
-    try {
-      parsedBody = JSON.parse(req.body);
-    } catch (parseError) {
-      error(
-        `Error parsing request body: ${parseError.message}, ${
-          req.body
-        } ${parsedBody} ${req} Jsonstringify req result:  ${JSON.stringify(
-          req
-        )} "hello"`
-      );
-      return res.json({
-        message: "Error parsing request body",
-        error: parseError.message,
-      });
-    }
+  client
+    .setEndpoint("https://cloud.appwrite.io/v1")
+    .setProject(process.env.APPWRITE_PROJECT_ID)
+    .setKey(process.env.APPWRITE_API_KEY);
 
+  try {
+    // Parse the JSON string in req.body
+    const parsedBody = JSON.parse(req.body);
     const userId = parsedBody.userId;
     log(`Received userId: ${userId}`);
 
