@@ -5,12 +5,14 @@ module.exports = async function (request, context) {
 
   // Initialize the Appwrite client
   const client = new Client();
-  const account = new Account(client);
 
   client
-    .setEndpoint("https://cloud.appwrite.io/v1") // Your Appwrite endpoint
-    .setProject(process.env.APPWRITE_PROJECT_ID) // Your project ID
+    .setEndpoint("https://cloud.appwrite.io/v1")
+
+    .setProject(process.env.APPWRITE_PROJECT_ID)
     .setKey(process.env.APPWRITE_API_KEY); // Your Appwrite API key with permissions
+
+  const account = new Account(client);
 
   try {
     const userId = request.payload.userId;
