@@ -175,15 +175,12 @@ function Header() {
           const functionEndpoint =
             "https://cloud.appwrite.io/v1/functions/65734ae52ec9790d02eb/executions";
 
-          const response = await fetch(functionEndpoint, {
+          const response = await fetch("/api/deleteUser", {
             method: "POST",
             headers: {
-              // Include headers as required by your Appwrite setup
               "Content-Type": "application/json",
-              "X-Appwrite-Project": "[YOUR_PROJECT_ID]",
-              // ... other headers like API key if needed
             },
-            body: JSON.stringify({ userId: user.$id }), // Send the user ID in the request body
+            body: JSON.stringify({ userId: user.$id }),
           });
 
           if (!response.ok) {

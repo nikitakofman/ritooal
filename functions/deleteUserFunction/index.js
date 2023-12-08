@@ -1,6 +1,7 @@
 const { Client, Account } = require("node-appwrite");
 
 module.exports = async function (request) {
+  console.log("hello");
   // Initialize the Appwrite client
   const client = new Client();
   const account = new Account(client);
