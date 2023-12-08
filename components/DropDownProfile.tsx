@@ -1,7 +1,10 @@
 import { account, ID } from "@/appwrite";
 import React from "react";
 
-const DropDownProfile = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
+const DropDownProfile = React.forwardRef<
+  HTMLDivElement,
+  { onProfileClick: () => void }
+>((props, ref) => {
   async function handleLogout() {
     try {
       await account.deleteSession("current");
@@ -17,9 +20,12 @@ const DropDownProfile = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
       className="flex flex-col text-sm border border-gray-300 rounded-lg dropDownProfile shadow-xl bg-white"
     >
       <ul className="flex flex-col w-full">
-        {/* <li className=" cursor-pointer border-b border-gray-300">
+        <li
+          className=" cursor-pointer border-b border-gray-300"
+          onClick={props.onProfileClick}
+        >
           <p className="p-3 hover:text-neutral-400">Profile</p>
-        </li> */}
+        </li>
         <li
           className="cursor-pointer  hover:text-neutral-400"
           onClick={handleLogout}

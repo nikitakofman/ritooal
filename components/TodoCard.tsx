@@ -27,9 +27,9 @@ type Props = {
 function getCardColor(importance) {
   switch (importance) {
     case "important":
-      return "bg-[#E16A62]"; // or any red shade
+      return "bg-[#e09c98]"; // or any red shade
     case "semi-important":
-      return "bg-[#E7C570]"; // or any orange shade
+      return "bg-[#e8d3a2]"; // or any orange shade
     case "not-important":
       return "bg-[#B2D4AC]"; // or any yellow shade
     case "no-color":

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { account } from "@/appwrite";
+import { account, database } from "@/appwrite"; // assuming this is your import path
 import Image from "next/image";
 
 const AuthCallback = () => {
@@ -11,12 +11,37 @@ const AuthCallback = () => {
         const session = await account.getOAuth2Session();
         console.log(session);
         setIsLoading(true);
-        console.log(isLoading);
+
+        // After successful OAuth login, update or create custom user data
+        updateOrCreateGoogleUserData(session.userId);
+
         window.location.href = "/dashboard";
       } catch (error) {
         console.error("OAuth error:", error);
         setIsLoading(false);
         window.location.href = "/";
+      }
+    }
+
+    async function updateOrCreateGoogleUserData(userId) {
+      console.log("hello");
+      try {
+        // Check if userDetails document for this user already exists
+        const userDocument = await database.getDocument("userDetails", userId);
+
+        if (!userDocument) {
+          // Create a new document if it doesn't exist
+          await database.createDocument("userDetails", userId, {
+            isGoogleUser: true,
+          });
+        } else {
+          // Update the existing document
+          await database.updateDocument("userDetails", userId, {
+            isGoogleUser: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error updating user data:", error);
       }
     }
 

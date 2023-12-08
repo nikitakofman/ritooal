@@ -11,10 +11,14 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DropDownProfile from "./DropDownProfile";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 function Header() {
   const userId = useBoardStore((state) => state.userId);
   const dropdownRef: any = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   useEffect(() => {}, [userId]);
 
@@ -24,11 +28,34 @@ function Header() {
     state.setSearchString,
   ]);
 
+  const [isGoogle, setIsGoogle] = useState(false);
+
+  console.log(isGoogle);
+
+  useEffect(() => {
+    async function fetchSession() {
+      try {
+        const session = await account.getSession("current");
+        console.log("thos", session);
+        if (session.provider === "google") {
+          setIsGoogle(true);
+        }
+        // Additional logic to handle session data...
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    }
+
+    fetchSession();
+  }, []);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<string>("");
   const [user, setUser] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [openProfile, setOpenProfile] = useState(false);
+
+  console.log("this", user);
 
   useEffect(() => {
     if (board.columns.size === 0) return;
@@ -131,6 +158,61 @@ function Header() {
     );
   }
 
+  const deleteAccount = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This will delete your account and all your tasks. You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ED5E68",
+      cancelButtonColor: "#6E7881",
+      confirmButtonText: "Yes, delete account",
+      showCloseButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Replace this URL with your Appwrite function's endpoint
+          const functionEndpoint =
+            "https://cloud.appwrite.io/v1/functions/65734ae52ec9790d02eb/executions";
+
+          const response = await fetch(functionEndpoint, {
+            method: "POST",
+            headers: {
+              // Include headers as required by your Appwrite setup
+              "Content-Type": "application/json",
+              "X-Appwrite-Project": "[YOUR_PROJECT_ID]",
+              // ... other headers like API key if needed
+            },
+            body: JSON.stringify({ userId: user.$id }), // Send the user ID in the request body
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to delete account");
+          }
+
+          // Show success message
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your account has been deleted.",
+            icon: "success",
+            timer: 1500,
+          });
+
+          // Redirect or perform additional cleanup
+          window.location.href = "/"; // Redirect to home or login page
+        } catch (error) {
+          // Handle errors
+          console.error("Error deleting account:", error);
+          Swal.fire(
+            "Failed!",
+            "There was a problem deleting your account.",
+            "error"
+          );
+        }
+      }
+    });
+  };
+
   return (
     <header>
       <div className="flex items-center justify-center">
@@ -147,12 +229,12 @@ function Header() {
               />
             </div>
             <div
-              className="flex cursor-pointer hover:text-neutral-500 "
+              className="flex cursor-pointer text-[#345D79] hover:text-neutral-500 "
               onClick={() => setOpenProfile((prev) => !prev)}
             >
-              <p className="mr-2 italic flex md:hidden text-[14px]">
+              {/* <p className="mr-2 italic flex md:hidden text-[14px]">
                 {user.email}
-              </p>
+              </p> */}
               <FontAwesomeIcon
                 icon={faUser}
                 className="h-5 w-5 pb-3 flex md:hidden ml-1 pr-5 "
@@ -182,15 +264,20 @@ function Header() {
                 className="flex cursor-pointer hover:text-neutral-500"
                 onClick={() => setOpenProfile((prev) => !prev)}
               >
-                <p className="mr-2 italic hidden md:flex text-[14px]">
+                {/* <p className="mr-2 italic hidden md:flex text-[14px]">
                   {user.email}
-                </p>
+                </p> */}
                 <FontAwesomeIcon
                   icon={faUser}
                   className="h-5 w-5 hidden md:flex ml-1 pr-5 "
                 />
               </div>
-              {openProfile && <DropDownProfile ref={dropdownRef} />}
+              {openProfile && (
+                <DropDownProfile
+                  ref={dropdownRef}
+                  onProfileClick={toggleModal}
+                />
+              )}
               {/* <p className="mt-2 mr-3">{email}</p> */}
               {/* <button
               className="h-8 px-4 mt-2 text-sm text-indigo-100 transition-colors duration-150 bg-[#335E7F] rounded-lg focus:shadow-outline hover:bg-[#335E7F]/80"
@@ -229,6 +316,74 @@ function Header() {
             : "Summarising your tasks for the day..."}
         </p>
       </div>
+      {isModalOpen && (
+        <div
+          className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75 z-50"
+          onClick={toggleModal}
+        >
+          <div
+            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* <div className="flex items-center w-full justify-center">
+              <Image
+                width={400}
+                height={100}
+                alt="Create ritooal account"
+                src="/createacc.png"
+              />
+            </div> */}
+            <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
+              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+                Your profile
+              </div>
+              {!isGoogle && <p className="font-semibold mb-4">{user.email}</p>}
+              {isGoogle ? (
+                <>
+                  <div className="w-[200px] border flex items-center bg-white p-1 rounded-full">
+                    <img src="google.png" className="w-10 h-10" />
+                    <p className="text-xs ml-1 font-semibold">{user.email}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="mb-4 text-md">Change your password</p>
+                  <form className="flex flex-col items-center w-9/12 space-y-4">
+                    <input
+                      type="password"
+                      placeholder="Current password"
+                      // value={passwordCreate}
+                      // onChange={(e) => setPasswordCreate(e.target.value)}
+                      className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                    />
+                    <input
+                      type="password"
+                      placeholder="New password"
+                      // value={passwordCreate}
+                      // onChange={(e) => setPasswordCreate(e.target.value)}
+                      className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                    />
+                    <button
+                      // type="button"
+                      // onClick={handleRegister}
+                      className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    >
+                      Confirm
+                    </button>
+                  </form>
+                </>
+              )}
+
+              <p
+                className="mt-4 font-light cursor-pointer"
+                onClick={deleteAccount}
+              >
+                Delete account
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
