@@ -324,61 +324,69 @@ function Header() {
             className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* <div className="flex items-center w-full justify-center">
+            <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
+              <div
+                className={`flex flex-col w-full min-w-[352px] items-center justify-between space-y-${
+                  isGoogle ? "10" : "6"
+                }`}
+              >
+                <div className="text-2xl font-bold text-[#355D7B] text-center">
+                  Your profile
+                </div>
+                {!isGoogle && (
+                  <p className="font-semibold mb-4">{user.email}</p>
+                )}
+                {isGoogle ? (
+                  <>
+                    <div className="w-[200px] border flex items-center bg-white p-1 rounded-full">
+                      <img src="google.png" className="w-10 h-10" />
+                      <p className="text-xs ml-1 font-semibold">{user.email}</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="mb-4 text-md">Change your password</p>
+                    <form className="flex flex-col items-center w-9/12 space-y-4">
+                      <input
+                        type="password"
+                        placeholder="Current password"
+                        // value={passwordCreate}
+                        // onChange={(e) => setPasswordCreate(e.target.value)}
+                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                      />
+                      <input
+                        type="password"
+                        placeholder="New password"
+                        // value={passwordCreate}
+                        // onChange={(e) => setPasswordCreate(e.target.value)}
+                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                      />
+                      <button
+                        // type="button"
+                        // onClick={handleRegister}
+                        className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      >
+                        Confirm
+                      </button>
+                    </form>
+                  </>
+                )}
+
+                <p
+                  className="mt-4 font-light cursor-pointer"
+                  onClick={deleteAccount}
+                >
+                  Delete account
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center w-full justify-center">
               <Image
                 width={400}
                 height={100}
-                alt="Create ritooal account"
-                src="/createacc.png"
+                alt="Change ritooal profile details"
+                src="/profile.png"
               />
-            </div> */}
-            <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
-              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
-                Your profile
-              </div>
-              {!isGoogle && <p className="font-semibold mb-4">{user.email}</p>}
-              {isGoogle ? (
-                <>
-                  <div className="w-[200px] border flex items-center bg-white p-1 rounded-full">
-                    <img src="google.png" className="w-10 h-10" />
-                    <p className="text-xs ml-1 font-semibold">{user.email}</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <p className="mb-4 text-md">Change your password</p>
-                  <form className="flex flex-col items-center w-9/12 space-y-4">
-                    <input
-                      type="password"
-                      placeholder="Current password"
-                      // value={passwordCreate}
-                      // onChange={(e) => setPasswordCreate(e.target.value)}
-                      className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
-                    />
-                    <input
-                      type="password"
-                      placeholder="New password"
-                      // value={passwordCreate}
-                      // onChange={(e) => setPasswordCreate(e.target.value)}
-                      className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
-                    />
-                    <button
-                      // type="button"
-                      // onClick={handleRegister}
-                      className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                    >
-                      Confirm
-                    </button>
-                  </form>
-                </>
-              )}
-
-              <p
-                className="mt-4 font-light cursor-pointer"
-                onClick={deleteAccount}
-              >
-                Delete account
-              </p>
             </div>
           </div>
         </div>
