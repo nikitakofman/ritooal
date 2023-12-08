@@ -13,6 +13,7 @@ module.exports = async function ({ req, res, log, error }) {
 
   try {
     const userId = req.body.userId;
+    log(req.body);
     log(`Attempting to delete user with ID: ${userId}`);
 
     const result = await users.delete(userId);
