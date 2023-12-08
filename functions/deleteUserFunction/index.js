@@ -14,6 +14,8 @@ module.exports = async function (request, context) {
 
   const users = new Users(client);
 
+  log(`Attempting to delete user with ID: ${userId}`);
+
   try {
     const userId = request.payload.userId;
 
