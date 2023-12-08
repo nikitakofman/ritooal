@@ -1,6 +1,6 @@
 const { Client, Account } = require("node-appwrite");
 
-module.exports = async function (request, response) {
+module.exports = async function (request) {
   console.log("Function is invoked");
 
   // Initialize the Appwrite client
@@ -21,15 +21,15 @@ module.exports = async function (request, response) {
     let result = await account.delete(userId);
 
     // Return a success response
-    response.json({
+    return {
       message: "User deleted successfully",
       result: result,
-    });
+    };
   } catch (error) {
     // Return an error response if something goes wrong
-    response.json({
+    return {
       message: "Failed to delete the user",
       error: error.message,
-    });
+    };
   }
 };
