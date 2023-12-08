@@ -11,6 +11,8 @@ module.exports = async function (request, log, error) {
 
   const users = new Users(client);
 
+  log(`Attempting to delete user with ID: ${userId}`);
+
   try {
     const userId = request.payload.userId;
     log(`Attempting to delete user with ID: ${userId}`);
@@ -23,7 +25,7 @@ module.exports = async function (request, log, error) {
       result: result,
     };
   } catch (err) {
-    error(`Failed to delete the user: ${err.message}`);
+    // error(`Failed to delete the user: ${err.message}`);
     return {
       message: "Failed to delete the user",
       error: err.message,
