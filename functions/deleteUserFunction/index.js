@@ -28,7 +28,7 @@ module.exports = async function ({ req, res, log, error }) {
       result: result,
     });
   } catch (err) {
-    error(`Failed to delete the user: ${err.message}`);
+    error(`Failed to delete the user: ${err.message} ${req} ${req.body}`);
     return res.json({
       message: "Failed to delete the user",
       error: err.message,
