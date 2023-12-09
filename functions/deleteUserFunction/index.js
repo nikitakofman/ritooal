@@ -20,7 +20,7 @@ module.exports = async function ({ req, res, log, error }) {
     // const userId = parsedBody.userId;
     // log(`Received userId: ${userId}`);
 
-    const result = await users.delete(req.body);
+    const result = await users.delete(req.body.userid);
     log(`User deleted successfully: ${JSON.stringify(result)}`);
 
     return res.json({
@@ -28,7 +28,7 @@ module.exports = async function ({ req, res, log, error }) {
       result: result,
     });
   } catch (err) {
-    error(`Failed to delete the user: ${err.message} ${req} ${req.body}`);
+    error(`Failed to delete the user: ${err.message} ${req.body}`);
     return res.json({
       message: "Failed to delete the user",
       error: err.message,
