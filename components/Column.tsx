@@ -37,6 +37,7 @@ function Column({ id, todos, index }: Props) {
 
   const getTodos = () => {
     let sortedTodos = [...todos];
+    console.log("bruh", sortedTodos);
     switch (sortType) {
       case "date":
         sortedTodos.sort(
@@ -94,11 +95,11 @@ function Column({ id, todos, index }: Props) {
               className={`p-2 rounded-none ${
                 snapshot.isDraggingOver
                   ? "bg-green-200/40 rounded-xl"
-                  : "border-b-2 bg-[#F8F0E5] rounded-xl border-[#102C57]/30 shadow "
+                  : "border-b-2 bg-[#F8F0E5] dark:bg-[#272C35] rounded-xl border-[#102C57]/30 dark:border-[#787880] shadow "
               }`}
             >
               {" "}
-              <h2 className="flex justify-between items-center text-sm font-semibold text-[#102C57] border-2text-xl">
+              <h2 className="flex justify-between items-center text-sm font-semibold text-[#102C57] dark:text-white border-2text-xl">
                 <div className="flex justify-center items-center">
                   <span className="rounded-full ml-1 ">
                     (

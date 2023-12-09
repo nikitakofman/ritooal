@@ -14,6 +14,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import "animate.css";
+import { useDarkMode } from "../contexts/DarkModeProvider";
 
 type Props = {
   todo: Todo;
@@ -27,15 +28,15 @@ type Props = {
 function getCardColor(importance) {
   switch (importance) {
     case "important":
-      return "bg-[#e09c98]"; // or any red shade
+      return "bg-[#e09c98] dark:bg-[#88304E] dark:text-white"; // or any red shade
     case "semi-important":
-      return "bg-[#e8d3a2]"; // or any orange shade
+      return "bg-[#e8d3a2] dark:bg-[#B0A565] dark:text-white"; // or any orange shade
     case "not-important":
-      return "bg-[#B2D4AC]"; // or any yellow shade
+      return "bg-[#B2D4AC] dark:bg-[#3B5349] dark:text-white"; // or any yellow shade
     case "no-color":
-      return "bg-white"; // No color
+      return "bg-white dark:bg-[#1A1F24] dark:text-white"; // No color
     default:
-      return "bg-white"; // default color
+      return "bg-white dark:bg-[#1A1F24] dark:text-white"; // default color
   }
 }
 
@@ -48,6 +49,7 @@ function TodoCard({
   draggableProps,
   dragHandleProps,
 }: Props) {
+  const { darkMode } = useDarkMode();
   const deleteTask = useBoardStore((state) => state.deleteTask);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -234,6 +236,7 @@ function TodoCard({
     Swal.fire({
       title: "Edit Task",
       html: ` 
+
       <select id="importance-select" class="ml-2 mb-5 border border-gray-300 p-1 rounded-xl">
       <option value="important" ${
         todo.importance === "important" ? "selected" : ""
@@ -271,6 +274,7 @@ function TodoCard({
           <img src="/loading.png" alt="Loading..." style="width: 50px; height: 50px;" class="animateSpin h-10 w-10" />
         </div>
         </div>
+
       `,
       showCancelButton: true,
       confirmButtonText: "Save",
@@ -395,7 +399,7 @@ function TodoCard({
           {todo.title}
         </p>
         <div className="opacity-30 group-hover:opacity-100 group-hover:block w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform ease-in-out duration-300 ">
-          <img src="/openicon.png" />
+          <img src={darkMode ? "/openiconwhite.png" : "/openicon.png"} />
         </div>
       </div>
       {imageUrl && (

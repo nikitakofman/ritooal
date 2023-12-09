@@ -20,7 +20,7 @@ export default async function handler(
           { role: "system", content: "You are a helpful assistant." },
           {
             role: "user",
-            content: `Generate a random tip for completing daily dasks.`,
+            content: `Generate a random tip for completing daily dasks. Don't make it more than 2 sentences`,
           },
         ],
         model: "gpt-3.5-turbo",

@@ -12,8 +12,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DropDownProfile from "./DropDownProfile";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
+import { useDarkMode } from "../contexts/DarkModeProvider";
 
 function Header() {
+  const { darkMode, toggleDarkMode } = useDarkMode();
+
   const userId = useBoardStore((state) => state.userId);
   const dropdownRef: any = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -300,12 +304,12 @@ function Header() {
   return (
     <header>
       <div className="flex items-center justify-center">
-        <div className="flex flex-col md:flex-row items-center w-full justify-between border-b-2 border-b-[#102C57]/10 p-3 bg-[#FAF6F0] ">
+        <div className="flex flex-col md:flex-row items-center w-full justify-between border-b-2 border-b-[#102C57]/10 p-3 bg-[#FAF6F0] dark:bg-[#272C35] ">
           {/* <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-br bg-sky-800 rounded-md filter blur-3xl opacity-50 -z-50" /> */}
           <div className="w-full flex justify-between items-center">
             <div className="pl-0 md:pl-3 ">
               <Image
-                src="/ritooallogo.png"
+                src={`/ritooallogo${darkMode ? "white" : ""}.png`}
                 alt="Ritooal Logo"
                 width={300}
                 height={100}
@@ -319,6 +323,7 @@ function Header() {
               {/* <p className="mr-2 italic flex md:hidden text-[14px]">
                 {user.email}
               </p> */}
+
               <FontAwesomeIcon
                 icon={faUser}
                 className="h-5 w-5 pb-3 flex md:hidden ml-1 pr-5 "
@@ -327,14 +332,14 @@ function Header() {
           </div>
           <div className="w-full">
             <div className="flex flex-wrap items-center space-x-5 flex-1 justify-center w-full">
-              <form className="flex items-center space-x-5 bg-white rounded-md border-2 shadow-md flex-1 md:flex-initial">
+              <form className="flex items-center space-x-5 bg-white dark:bg-[#454847]  rounded-md border-2 dark:border-[#77777F] shadow-md flex-1 md:flex-initial">
                 <MagnifyingGlassIcon className="h-5 w-5 ml-3 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search tasks..."
                   value={searchString}
                   onChange={(e) => setSearchString(e.target.value)}
-                  className="flex-1 outline-none p-2"
+                  className="flex-1 outline-none bg-transparent dark:text-white p-2"
                 />
                 <button type="submit" hidden>
                   Search
@@ -344,16 +349,17 @@ function Header() {
           </div>
           <div className="w-full">
             <div className="flex  justify-center items-end flex-col text-[#345D79] ">
-              <div
-                className="flex cursor-pointer hover:text-neutral-500"
-                onClick={() => setOpenProfile((prev) => !prev)}
-              >
-                {/* <p className="mr-2 italic hidden md:flex text-[14px]">
-                  {user.email}
-                </p> */}
+              <div className="flex items-center">
+                <FontAwesomeIcon
+                  onClick={toggleDarkMode}
+                  icon={faCircleHalfStroke}
+                  className="mr-3 h-5 hover:text-neutral-500 dark:text-white cursor-pointer"
+                />
+
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="h-5 w-5 hidden md:flex ml-1 pr-5 "
+                  onClick={() => setOpenProfile((prev) => !prev)}
+                  className="h-5 w-5 hidden hover:text-neutral-500 cursor-pointer dark:text-white md:flex ml-1 pr-5 "
                 />
               </div>
               {openProfile && (
@@ -375,28 +381,41 @@ function Header() {
       </div>
 
       <div className="flex items-center justify-center px-5 py-2 md:py-5">
-        <p className="flex items-center p-5 text-sm text-center font-light pr-5 rounded-xl w-fit bg-[#FFFDFC] max-w-3xl text-[black]/70">
-          {/* <img
+        <div className="flex flex-col items-center justify-center">
+          <Image
+            height={400}
+            width={600}
+            alt="tutorial"
+            src={`/tutorial${darkMode ? "white" : ""}.png`}
+            className="mt-3"
+          />
+          <p className="flex items-center p-5 text-sm text-center font-light pr-5 rounded-xl w-fit bg-[#FFFDFC] dark:bg-[#1A2024] max-w-3xl dark:text-white text-[black]/70">
+            {/* <img
             src="/loading.png"
             className={` h-10 w-10 text-[black] mr-1 ${
               loading && "animate-spin"
             }`}
           /> */}
 
-          <img
-            src="/loading.png"
-            className={
-              loading ? "h-10 w-10 text-[black] mr-2 animate-spin" : "hidden"
-            }
-          />
+            <img
+              src="/loading.png"
+              className={
+                loading
+                  ? "h-10 w-10 text-[black] dark:text-white mr-2 animate-spin"
+                  : "hidden"
+              }
+            />
 
-          {/* <UserCircleIcon
+            {/* <UserCircleIcon
             className={`inline-block h-10 w-10 text-[black] mr-1 ${
               loading && "animate-spin"
             }`}
           /> */}
-          {suggestion && !loading ? suggestion : "Generating tip of the day..."}
-        </p>
+            {suggestion && !loading
+              ? suggestion
+              : "Generating tip of the day..."}
+          </p>
+        </div>
       </div>
       {isModalOpen && (
         <div
