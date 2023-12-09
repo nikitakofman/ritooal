@@ -20,7 +20,7 @@ module.exports = async function ({ req, res, log, error }) {
     // const userId = parsedBody.userId;
     // log(`Received userId: ${userId}`);
 
-    const result = await users.delete(req.body.userid);
+    const result = await users.delete(req.body.userId);
     log(`User deleted successfully: ${JSON.stringify(result)}`);
 
     return res.json({
