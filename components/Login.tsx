@@ -16,6 +16,9 @@ function Login() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordRecoveryModalOpen, setIsPasswordRecoveryModalOpen] =
+    useState(false);
+  const [recoveryEmail, setRecoveryEmail] = useState("");
 
   useEffect(() => {
     async function getUser() {
@@ -103,21 +106,38 @@ function Login() {
   async function handleRegister() {
     try {
       setLoadingUser(true);
-      await account.create(ID.unique(), emailCreate, passwordCreate);
-      await handleLoginCreate();
+      const response = await account.create(
+        ID.unique(),
+        emailCreate,
+        passwordCreate
+      );
+
+      // Check if the user account was created successfully
+      if (response.$id) {
+        // Log the user in
+        await account.createEmailSession(emailCreate, passwordCreate);
+
+        // Send a verification email
+        try {
+          await account.createVerification("https://ritooal.com/verify");
+          toast.info("Account created. Verification email sent.", {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        } catch (verificationError) {
+          console.error(verificationError);
+          // Handle error in sending verification email
+        }
+
+        // Redirect to dashboard or appropriate page
+        window.location.href = "/dashboard";
+      }
     } catch (e) {
       setLoadingUser(false);
       console.error(e);
-
       toast.error(e.message, {
         position: "top-right",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
       });
     }
   }
@@ -197,6 +217,26 @@ function Login() {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  async function handlePasswordRecovery() {
+    try {
+      // Assuming you want to use the same email entered for login
+      await account.createRecovery(
+        recoveryEmail,
+        "https://ritooal.com/passwordrecovery"
+      );
+      toast.info("Password reset email sent. Check your inbox.", {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    } catch (e) {
+      console.error(e);
+      toast.error(e.message, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
+  }
+
   return (
     <div
       className="flex justify-between p-2 flex-col md:flex-row items-center  bg-[#F8F0E5]"
@@ -266,7 +306,14 @@ function Login() {
             >
               Sign in
             </button>
-            <div className="flex text-sm flex-col md:flex-row items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setIsPasswordRecoveryModalOpen(true)}
+              className=" text-[#315E80] hover:text-gray-400 text-sm rounded-md focus:outline-none "
+            >
+              Forgot password?
+            </button>
+            <div className="flex mt-2 text-sm flex-col md:flex-row items-center justify-center">
               <p>No account yet?</p>
               <button
                 type="button"
@@ -331,6 +378,39 @@ function Login() {
                   className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                   Sign up
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+      {isPasswordRecoveryModalOpen && (
+        <div
+          className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75 z-50"
+          onClick={() => setIsPasswordRecoveryModalOpen(false)}
+        >
+          <div
+            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
+              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+                Reset Your Password
+              </div>
+              <form className="flex flex-col items-center w-9/12 space-y-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={recoveryEmail}
+                  onChange={(e) => setRecoveryEmail(e.target.value)}
+                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2 outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handlePasswordRecovery}
+                  className="h-10 bg-[#53B0DB] min-w-[270px] text-white rounded-md hover:bg-[#4BA0C8] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Send Recovery Email
                 </button>
               </form>
             </div>

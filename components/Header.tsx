@@ -17,6 +17,8 @@ function Header() {
   const userId = useBoardStore((state) => state.userId);
   const dropdownRef: any = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -91,16 +93,65 @@ function Header() {
 
   const [email, setEmail] = useState("");
 
+  // console.log(user.emailVerification);
+  // if (user.emailVerification === false) {
+  // }
+
   async function getUser() {
     try {
       const userData = await account.get();
       setUser(userData);
       setEmail(userData.email);
+
+      if (!userData.emailVerification) {
+        account.deleteSession("current");
+        Swal.fire({
+          title: "Email Verification Needed",
+          text: "Please check your email to verify your account. Click below to resend the verification email.",
+          icon: "warning",
+          showCancelButton: false,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Resend Email",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            resendVerificationEmail();
+          } else {
+            account.deleteSession("current");
+            setUser(null);
+            window.location.href = "/";
+          }
+        });
+      }
     } catch (error) {
       console.error(error);
       setUser(null);
     } finally {
-      setLoadingUser(false); // Set loading to false after fetching user data or on error
+      setLoadingUser(false);
+    }
+  }
+
+  async function resendVerificationEmail() {
+    try {
+      await account.createVerification("https://ritooal.com/verify");
+      Swal.fire(
+        "Sent!",
+        "Verification email has been resent. Please check your inbox.",
+        "success"
+      ).then(() => {
+        account.deleteSession("current");
+        setUser(null);
+        window.location.href = "/";
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Failed to resend verification email.", "error").then(
+        () => {
+          account.deleteSession("current");
+          setUser(null);
+          window.location.href = "/";
+        }
+      );
     }
   }
 
@@ -193,6 +244,7 @@ function Header() {
             text: "Your account has been deleted.",
             icon: "success",
             timer: 1500,
+            showConfirmButton: false,
           });
 
           window.location.href = "/";
@@ -208,6 +260,42 @@ function Header() {
       }
     });
   };
+
+  async function handleChangePassword() {
+    if (!currentPassword || !newPassword) {
+      Swal.fire({
+        title: "Error",
+        text: "Please enter all required fields.",
+        icon: "error",
+        confirmButtonColor: "#52B0DB", // Set your desired color here
+      });
+      return;
+    }
+
+    try {
+      // Call the updatePassword method from Appwrite SDK
+      await account.updatePassword(newPassword, currentPassword);
+      Swal.fire({
+        title: "Success",
+        text: "Your password has been changed.",
+        icon: "success",
+        confirmButtonColor: "#52B0DB", // Set your desired color here
+      });
+      // Clear the input fields
+      setCurrentPassword("");
+      setNewPassword("");
+    } catch (error) {
+      console.error("Error changing password:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Incorrect current password or passwords don't match.",
+        icon: "error",
+        confirmButtonColor: "#52B0DB", // Set your desired color here
+      });
+      setCurrentPassword("");
+      setNewPassword("");
+    }
+  }
 
   return (
     <header>
@@ -243,7 +331,7 @@ function Header() {
                 <MagnifyingGlassIcon className="h-5 w-5 ml-3 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search tasks..."
                   value={searchString}
                   onChange={(e) => setSearchString(e.target.value)}
                   className="flex-1 outline-none p-2"
@@ -323,9 +411,7 @@ function Header() {
           >
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <div
-                className={`flex flex-col w-full min-w-[352px] items-center justify-between space-y-${
-                  isGoogle ? "10" : "6"
-                }`}
+                className={`flex flex-col w-full min-w-[352px] items-center justify-between space-y-4`}
               >
                 <div className="text-2xl font-bold text-[#355D7B] text-center">
                   Your profile
@@ -347,20 +433,20 @@ function Header() {
                       <input
                         type="password"
                         placeholder="Current password"
-                        // value={passwordCreate}
-                        // onChange={(e) => setPasswordCreate(e.target.value)}
-                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2 outline-none"
                       />
                       <input
                         type="password"
                         placeholder="New password"
-                        // value={passwordCreate}
-                        // onChange={(e) => setPasswordCreate(e.target.value)}
-                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2 outline-none"
                       />
                       <button
-                        // type="button"
-                        // onClick={handleRegister}
+                        type="button"
+                        onClick={handleChangePassword}
                         className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                       >
                         Confirm
