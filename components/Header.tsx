@@ -172,18 +172,16 @@ function Header() {
       if (result.isConfirmed) {
         try {
           // Replace this URL with your Appwrite function's endpoint
-          const functionEndpoint =
-            "https://cloud.appwrite.io/v1/functions/65734ae52ec9790d02eb/executions";
-          console.log(userId);
-          const response = await fetch("/api/deleteUser", {
+          // const functionEndpoint =
+          //   "https://cloud.appwrite.io/v1/functions/65734ae52ec9790d02eb/executions";
+          console.log(user.$id);
+          const response = await fetch("/api/deleteUsera", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ userId: userId }),
+            body: JSON.stringify({ userId }),
           });
-
-          console.log("Payload:", JSON.stringify({ userId: userId }));
 
           if (!response.ok) {
             throw new Error("Failed to delete account");
@@ -197,8 +195,7 @@ function Header() {
             timer: 1500,
           });
 
-          // Redirect or perform additional cleanup
-          window.location.href = "/"; // Redirect to home or login page
+          // window.location.href = "/";
         } catch (error) {
           // Handle errors
           console.error("Error deleting account:", error);
@@ -372,7 +369,12 @@ function Header() {
                   </>
                 )}
 
-                <p className="mt-4 font-light cursor-pointer">Delete account</p>
+                <p
+                  className="mt-4 font-light cursor-pointer"
+                  onClick={deleteAccount}
+                >
+                  Delete account
+                </p>
               </div>
             </div>
             <div className="flex items-center w-full justify-center">
