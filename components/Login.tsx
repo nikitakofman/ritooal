@@ -331,7 +331,7 @@ function Login() {
             >
               Forgot password?
             </button>
-            <div className="flex mt-2 text-sm flex-row items-center justify-center">
+            <div className="flex mt-2 text-sm flex-col items-center justify-center">
               <p>Don't have an account yet?</p>
               <button
                 type="button"
