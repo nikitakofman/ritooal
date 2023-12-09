@@ -26,7 +26,7 @@ export default async function handler(
       .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID); // Your project ID
 
     const execution = await functions.createExecution(
-      functionId,
+      "65734ae49c41205b0552",
       JSON.stringify({ userId })
     );
 
