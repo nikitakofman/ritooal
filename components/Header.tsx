@@ -395,9 +395,7 @@ function Header() {
               loading && "animate-spin"
             }`}
           /> */}
-          {suggestion && !loading
-            ? suggestion
-            : "Summarising your tasks for the day..."}
+          {suggestion && !loading ? suggestion : "Generating tip of the day..."}
         </p>
       </div>
       {isModalOpen && (
@@ -454,9 +452,8 @@ function Header() {
                     </form>
                   </>
                 )}
-
                 <p
-                  className="mt-4 font-light cursor-pointer"
+                  className="mt-4 md:flex hidden font-light cursor-pointer"
                   onClick={deleteAccount}
                 >
                   Delete account
@@ -471,6 +468,12 @@ function Header() {
                 src="/profile.png"
               />
             </div>
+            <p
+              className="mt-4 md:hidden flex font-light cursor-pointer"
+              onClick={deleteAccount}
+            >
+              Delete account
+            </p>
           </div>
         </div>
       )}

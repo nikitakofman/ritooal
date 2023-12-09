@@ -6,6 +6,9 @@ import { account, ID } from "@/appwrite";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import { faEnvelope, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -272,7 +275,7 @@ function Login() {
           </div>
           <div className="flex flex-col items-center justify-center">
             <div
-              className="border-gray-200 rounded-full min-w-[184px] hover:bg-gray-100  cursor-pointer flex items-center justify- shadow-md border bg-white w-6/12"
+              className="border-gray-200 rounded-full min-w-[184px] hover:bg-gray-100  cursor-pointer flex items-center shadow-sm border bg-white w-6/12"
               onClick={handleGoogleLogin}
             >
               <img src="/google.png" className="h-8 p-1 w-8" />
@@ -285,20 +288,35 @@ function Login() {
             </div>
           </div>
           <form className="flex items-center flex-col space-y-4">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-10 p-3 space-x-5 bg-white min-w-[270px] rounded-md border-2  outline-none"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-10 p-3 space-x-5 bg-white min-w-[270px] rounded-md border-2  outline-none"
-            />
+            <div className="relative flex items-center min-w-[270px]">
+              {/* Email icon */}
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="absolute pl-1 h-5 w-4 text-black/60"
+              />
+
+              {/* Email input field */}
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+              />
+            </div>
+            <div className="relative flex items-center min-w-[270px]">
+              <FontAwesomeIcon
+                icon={faLock}
+                className="absolute pl-1 h-5 w-4 pb-1 text-black/60"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+              />
+            </div>
             <button
               type="button"
               onClick={handleLogin}
@@ -313,14 +331,14 @@ function Login() {
             >
               Forgot password?
             </button>
-            <div className="flex mt-2 text-sm flex-col md:flex-row items-center justify-center">
-              <p>No account yet?</p>
+            <div className="flex mt-2 text-sm flex-row items-center justify-center">
+              <p>Don't have an account yet?</p>
               <button
                 type="button"
                 onClick={toggleModal}
                 className="h-10  text-[#315E80] hover:text-gray-400 ml-1 text-sm rounded-md focus:outline-none "
               >
-                Create your account
+                Create one
               </button>
             </div>
           </form>
@@ -335,9 +353,16 @@ function Login() {
           onClick={toggleModal}
         >
           <div
-            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] relative min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
+            {" "}
+            <button
+              className="absolute top-3 right-3 h-6 w-6 flex items-center justify-center bg-transparent text-gray-400 hover:text-gray-300"
+              onClick={toggleModal}
+            >
+              <FontAwesomeIcon icon={faTimes} className="h-6 font-semibold" />
+            </button>
             <div className="flex items-center w-full justify-center">
               <Image
                 width={400}
@@ -358,26 +383,55 @@ function Login() {
                 Create your account
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={emailCreate}
-                  onChange={(e) => setEmailCreate(e.target.value)}
-                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
-                />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={passwordCreate}
-                  onChange={(e) => setPasswordCreate(e.target.value)}
-                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2  outline-none"
-                />
+                <div className="relative flex items-center min-w-[270px]">
+                  {/* Email icon */}
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="absolute pl-1 h-5 w-4 text-black/60"
+                  />
+
+                  {/* Email input field */}
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={emailCreate}
+                    onChange={(e) => setEmailCreate(e.target.value)}
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                  />
+                </div>
+                <div className="relative flex items-center min-w-[270px]">
+                  <FontAwesomeIcon
+                    icon={faLock}
+                    className="absolute pl-1 h-5 w-4 pb-1 text-black/60"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={passwordCreate}
+                    onChange={(e) => setPasswordCreate(e.target.value)}
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                  />
+                </div>
+
                 <button
                   type="button"
                   onClick={handleRegister}
                   className="h-10 bg-[#22C55D] text-white min-w-[270px] rounded-md hover:bg-[#16A349] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                   Sign up
+                </button>
+                <div className="flex w-[267px] mt-6 mb-6 items-center justify-center">
+                  <div className="flex-grow h-px bg-gray-300"></div>
+                  <p className="mx-2 text-sm text-gray-600 ml-5 mr-5">or</p>
+                  <div className="flex-grow h-px bg-gray-300"></div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  className="h-10 bg-white flex  items-center text-black border border-gray-300 min-w-[270px] rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  <img src="/google.png" className="w-6 ml-2" />{" "}
+                  <p className="ml-7">Connect with Google</p>
                 </button>
               </form>
             </div>
@@ -390,27 +444,51 @@ function Login() {
           onClick={() => setIsPasswordRecoveryModalOpen(false)}
         >
           <div
-            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] min-w-[300px] relative min-h-[300px] max-w-3xl p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
+            {" "}
+            <button
+              className="absolute top-3 right-3 h-6 w-6 flex items-center justify-center bg-transparent text-gray-400 hover:text-gray-300"
+              onClick={() => setIsPasswordRecoveryModalOpen(false)}
+            >
+              <FontAwesomeIcon icon={faTimes} className="h-6 font-semibold" />
+            </button>
+            <Image
+              width={300}
+              height={100}
+              alt="Forgot password"
+              src="/forgotpassword.png"
+              className="w-48 md:w-72 mb-3 md:mb-10 flex object-contain"
+            />
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
                 Reset Your Password
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={recoveryEmail}
-                  onChange={(e) => setRecoveryEmail(e.target.value)}
-                  className="h-10 p-3 space-x-5 min-w-[270px] bg-white rounded-md border-2 outline-none"
-                />
+                <div className="relative flex items-center min-w-[270px]">
+                  {/* Email icon */}
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="absolute pl-1 h-5 w-4 text-black/60"
+                  />
+
+                  {/* Email input field */}
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={recoveryEmail}
+                    onChange={(e) => setRecoveryEmail(e.target.value)}
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                  />
+                </div>
+
                 <button
                   type="button"
                   onClick={handlePasswordRecovery}
                   className="h-10 bg-[#53B0DB] min-w-[270px] text-white rounded-md hover:bg-[#4BA0C8] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
-                  Send Recovery Email
+                  Send recovery email
                 </button>
               </form>
             </div>

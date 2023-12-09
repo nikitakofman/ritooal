@@ -117,7 +117,7 @@ function Column({ id, todos, index }: Props) {
                   <select
                     value={sortType}
                     onChange={(e) => setSortType(e.target.value)}
-                    className="ml-2 border border-gray-300 p-1 rounded-xl text-xs"
+                    className="ml-2 border-b-2 bg-transparent border-gray-300 p-1 focus:outline-none  text-xs"
                   >
                     <option value="none">Free</option>
                     <option value="date">Date</option>
