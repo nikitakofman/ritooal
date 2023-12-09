@@ -16,11 +16,11 @@ module.exports = async function ({ req, res, log, error }) {
 
   try {
     // Parse the JSON string in req.body
-    // const parsedBody = JSON.parse(req.body);
-    // const userId = parsedBody.userId;
+    const parsedBody = JSON.parse(req.body);
+    const userId = parsedBody.userId;
     // log(`Received userId: ${userId}`);
 
-    const result = await users.delete(req.body);
+    const result = await users.delete(userId);
     log(`User deleted successfully: ${JSON.stringify(result)}`);
 
     return res.json({
@@ -29,7 +29,7 @@ module.exports = async function ({ req, res, log, error }) {
     });
   } catch (err) {
     error(
-      `Failed to delete the user: ${err.message} ${req.body} ${req.body.userId}`
+      `Failed to delete the user: ${err.message} ${req.body} ${parsedBody} ${userId}`
     );
     return res.json({
       message: "Failed to delete the user",
