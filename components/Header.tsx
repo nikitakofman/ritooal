@@ -195,7 +195,7 @@ function Header() {
             timer: 1500,
           });
 
-          // window.location.href = "/";
+          window.location.href = "/";
         } catch (error) {
           // Handle errors
           console.error("Error deleting account:", error);
