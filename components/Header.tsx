@@ -323,10 +323,15 @@ function Header() {
               {/* <p className="mr-2 italic flex md:hidden text-[14px]">
                 {user.email}
               </p> */}
+              <FontAwesomeIcon
+                onClick={toggleDarkMode}
+                icon={faCircleHalfStroke}
+                className="mr-3 h-5 hover:text-neutral-500 dark:text-white flex md:hidden cursor-pointer"
+              />
 
               <FontAwesomeIcon
                 icon={faUser}
-                className="h-5 w-5 pb-3 flex md:hidden ml-1 pr-5 "
+                className="h-5 w-5 pb-3 flex md:hidden text-white ml-1 pr-5 "
               />
             </div>
           </div>
@@ -353,7 +358,7 @@ function Header() {
                 <FontAwesomeIcon
                   onClick={toggleDarkMode}
                   icon={faCircleHalfStroke}
-                  className="mr-3 h-5 hover:text-neutral-500 dark:text-white cursor-pointer"
+                  className="mr-3 h-5 hover:text-neutral-500 dark:text-white hidden md:flex cursor-pointer"
                 />
 
                 <FontAwesomeIcon
