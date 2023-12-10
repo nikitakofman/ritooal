@@ -316,10 +316,7 @@ function Header() {
                 className="w-24 md:w-24 pb-3 md:pb-0 object-contain"
               />
             </div>
-            <div
-              className="flex cursor-pointer text-[#345D79] hover:text-neutral-500 "
-              onClick={() => setOpenProfile((prev) => !prev)}
-            >
+            <div className="flex cursor-pointer text-[#345D79] hover:text-neutral-500 ">
               {/* <p className="mr-2 italic flex md:hidden text-[14px]">
                 {user.email}
               </p> */}
@@ -332,6 +329,7 @@ function Header() {
               <FontAwesomeIcon
                 icon={faUser}
                 className="h-5 w-5 pb-3 flex md:hidden text-white ml-1 pr-5 "
+                onClick={() => setOpenProfile((prev) => !prev)}
               />
             </div>
           </div>
