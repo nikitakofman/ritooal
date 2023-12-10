@@ -263,7 +263,7 @@ function Login() {
           make success your daily ritual
         </p>
         <Image
-          src="/introtask.png"
+          src={`/introtask${darkMode ? "white" : ""}.png`}
           alt="Task people Logo"
           width={300}
           height={100}
@@ -382,7 +382,7 @@ function Login() {
                 width={400}
                 height={100}
                 alt="Create ritooal account"
-                src="/createacc.png"
+                src={`/createacc${darkMode ? "white" : ""}.png`}
               />
             </div>
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
@@ -474,12 +474,12 @@ function Login() {
               width={300}
               height={100}
               alt="Forgot password"
-              src="/forgotpassword.png"
+              src={`/forgotpassword${darkMode ? "white" : ""}.png`}
               className="w-48 md:w-72 mb-3 md:mb-10 flex object-contain"
             />
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <div className="text-2xl font-bold mb-4 text-[#355D7B] dark:text-white text-center">
-                Reset Your Password
+                Reset Your Passwordf
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
                 <div className="relative flex items-center min-w-[270px]">
@@ -495,7 +495,7 @@ function Login() {
                     placeholder="Email"
                     value={recoveryEmail}
                     onChange={(e) => setRecoveryEmail(e.target.value)}
-                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 dark:text-white border-b-gray-300 outline-none"
                   />
                 </div>
 
@@ -514,7 +514,7 @@ function Login() {
       <div className="h-full">
         <div className="h-full">
           <Image
-            src="/introtask.png"
+            src={`/introtask${darkMode ? "white" : ""}.png`}
             alt="Task people"
             width={300}
             height={100}

@@ -125,7 +125,6 @@ function Header() {
       setEmail(userData.email);
 
       if (!userData.emailVerification) {
-        account.deleteSession("current");
         showAlert({
           title: "Email Verification Needed",
           text: "Please check your email to verify your account. Click below to resend the verification email.",
@@ -152,7 +151,11 @@ function Header() {
     }
   }
 
+  console.log(user);
+
   async function resendVerificationEmail() {
+    console.log("hello");
+    console.log(user);
     try {
       const result = await account.createVerification(
         "https://ritooal.com/verify"
@@ -163,6 +166,7 @@ function Header() {
         title: "Sent!",
         text: "Verification email has been resent. Please check your inbox.",
         icon: "success",
+        confirmButtonColor: "#3085d6",
       }).then(() => {
         // The then() is used here assuming showAlert returns Swal.fire()
         account.deleteSession("current");
@@ -515,7 +519,7 @@ function Header() {
                 width={300}
                 height={100}
                 alt="Change ritooal profile details"
-                src="/profile.png"
+                src={`/profile${darkMode ? "white" : ""}.png`}
               />
             </div>
             <p
