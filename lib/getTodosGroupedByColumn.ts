@@ -1,16 +1,16 @@
 import { databases } from "@/appwrite";
+import { Query } from "appwrite";
 
 export const getTodosGroupedByColumn = async (currentUserId: string) => {
+  const limit = 5000;
+
   const data = await databases.listDocuments(
     process.env.NEXT_PUBLIC_DATABASE_ID!,
-    process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!
+    process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
+    [Query.limit(limit)]
   );
 
-  console.log(currentUserId);
-
   const todos = data.documents.filter((todo) => todo.userId === currentUserId);
-
-  console.log(todos);
 
   const columns = todos.reduce((acc, todo) => {
     if (!acc.get(todo.status)) {

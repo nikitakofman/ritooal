@@ -35,6 +35,8 @@ function Column({ id, todos, index }: Props) {
     default: 4,
   };
 
+  console.log(todos);
+
   const getTodos = () => {
     let sortedTodos = [...todos];
     console.log("bruh", sortedTodos);

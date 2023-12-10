@@ -34,9 +34,9 @@ function getCardColor(importance) {
     case "not-important":
       return "bg-[#B2D4AC] dark:bg-[#3B5349] dark:text-white"; // or any yellow shade
     case "no-color":
-      return "bg-white dark:bg-[#1A1F24] dark:text-white"; // No color
+      return "bg-white dark:bg-[#6E7881] dark:text-white"; // No color
     default:
-      return "bg-white dark:bg-[#1A1F24] dark:text-white"; // default color
+      return "bg-white dark:bg-[#6E7881] dark:text-white"; // default color
   }
 }
 

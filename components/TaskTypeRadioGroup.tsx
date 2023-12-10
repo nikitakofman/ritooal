@@ -9,19 +9,19 @@ const types = [
     id: "todo",
     name: "Todo",
     description: "A new task to be completed",
-    color: "bg-red-500",
+    color: "bg-gray-600",
   },
   {
     id: "inprogress",
     name: "In Progress",
     description: "A task that is currently being worked on",
-    color: "bg-yellow-500",
+    color: "bg-gray-600",
   },
   {
     id: "done",
     name: "Done",
     description: "A task that has been completed",
-    color: "bg-green-500",
+    color: "bg-gray-600",
   },
 ];
 
@@ -46,11 +46,7 @@ function TaskTypeRadioGroup() {
                 key={type.id}
                 value={type.id}
                 className={({ active, checked }) =>
-                  `${
-                    active
-                      ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
-                      : ""
-                  }
+                  `${active ? "" : ""}
                   ${
                     checked
                       ? `${type.color} bg-opacity-75 text-white`

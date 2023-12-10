@@ -202,7 +202,7 @@ function Header() {
 
   if (loadingUser) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#F8F0E5]">
+      <div className="flex justify-center items-center h-screen bg-[#F8F0E5] dark:bg-[#1A1F24]">
         <div className="p-6 max-w-sm w-full flex items-center justify-center rounded-lg text-center">
           <img
             src="/loading.png"
@@ -398,7 +398,7 @@ function Header() {
           /> */}
 
             <img
-              src="/loading.png"
+              src={`/loading${darkMode ? "white" : ""}.png`}
               className={
                 loading
                   ? "h-10 w-10 text-[black] dark:text-white mr-2 animate-spin"
