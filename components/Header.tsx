@@ -328,7 +328,7 @@ function Header() {
 
               <FontAwesomeIcon
                 icon={faUser}
-                className="h-5 w-5 pb-3 flex md:hidden text-white ml-1 pr-5 "
+                className="h-5 w-5 pb-3 flex md:hidden dark:text-white ml-1 pr-5 "
                 onClick={() => setOpenProfile((prev) => !prev)}
               />
             </div>
