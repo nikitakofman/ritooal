@@ -8,8 +8,11 @@ import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { account, ID } from "@/appwrite";
+import { useDarkMode } from "@/contexts/DarkModeProvider";
 
 function Modal() {
+  const { darkMode } = useDarkMode();
+
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [addTask, image, setImage, newTaskInput, setNewTaskInput, newTaskType] =
     useBoardStore((state) => [
@@ -87,10 +90,10 @@ function Modal() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Panel className="w-screen max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-screen max-w-md transform overflow-hidden rounded-md bg-white dark:bg-[#1D2128] p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 pb-2"
+                  className="text-lg font-medium leading-6 dark:text-white text-gray-900 pb-2"
                 >
                   Add a Task
                 </Dialog.Title>
@@ -110,9 +113,9 @@ function Modal() {
                     onClick={() => {
                       imagePickerRef.current?.click();
                     }}
-                    className="w-full border border-gray-300 rounded-md outline-none p-5 hover:bg-neutral-400/10 focus-visible:ring-2 "
+                    className="w-full border border-gray-300 dark:text-white rounded-md outline-none p-5 hover:bg-neutral-400/10 focus-visible:ring-2 "
                   >
-                    <PhotoIcon className="h-6 w-6 mr-2 inline-block" />
+                    <PhotoIcon className="h-6 w-6 mr-2 dark:text-white inline-block" />
                     Upload Image
                   </button>
                   {image && (

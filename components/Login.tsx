@@ -9,6 +9,7 @@ import Image from "next/image";
 import { faEnvelope, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { useDarkMode } from "@/contexts/DarkModeProvider";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ function Login() {
   const [isPasswordRecoveryModalOpen, setIsPasswordRecoveryModalOpen] =
     useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
+  const { darkMode, toggleDarkMode } = useDarkMode();
 
   useEffect(() => {
     async function getUser() {
@@ -242,20 +244,20 @@ function Login() {
 
   return (
     <div
-      className="flex justify-between p-2 flex-col md:flex-row items-center  bg-[#F8F0E5]"
+      className="flex justify-between p-2 flex-col md:flex-row items-center relative bg-[#F8F0E5] dark:bg-[#1A1F24]"
       style={{ minHeight: "calc(100vh)" }}
     >
       <div className="h-full flex flex-col items-center justify-center w-full">
         <ToastContainer />
         <Image
-          src="/ritooallogo.png"
+          src={`/ritooallogo${darkMode ? "white" : ""}.png`}
           alt="Ritooal Logo"
           width={300}
           height={100}
           className="w-56 object-contain"
         />
         <p
-          className="text-black/50 text-[18.5px]"
+          className="text-black/50 dark:text-white text-[18.5px]"
           style={{ fontFamily: "Handlee" }}
         >
           make success your daily ritual
@@ -268,9 +270,19 @@ function Login() {
           className="md:w-96 md:flex hidden object-contain"
         />
       </div>
+      <div className="absolute top-0 md:left-1/2 pr-7 md:pr-0  mr-48 left-2/1  min-w-[50px]  left transform -translate-x-1/2 border-black translate  w-1/12 flex justify-center">
+        <Image
+          width={50}
+          height={50}
+          alt="Light bulb"
+          src={`/bulb${darkMode ? "white" : ""}.png`}
+          className="cursor-pointer"
+          onClick={toggleDarkMode}
+        />
+      </div>
       <div className="p-6  w-full flex items-center justify-center">
         <div className="w-full max-w-md  p-10 rounded-3xl ">
-          <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+          <div className="text-2xl font-bold mb-4 text-[#355D7B] dark:text-white text-center">
             Welcome
           </div>
           <div className="flex flex-col items-center justify-center">
@@ -283,7 +295,9 @@ function Login() {
             </div>
             <div className="flex w-[267px] mt-6 mb-6 items-center justify-center">
               <div className="flex-grow h-px bg-gray-300"></div>
-              <p className="mx-2 text-sm text-gray-600 ml-5 mr-5">or</p>
+              <p className="mx-2 text-sm text-gray-600 ml-5 mr-5 dark:text-white">
+                or
+              </p>
               <div className="flex-grow h-px bg-gray-300"></div>
             </div>
           </div>
@@ -292,7 +306,7 @@ function Login() {
               {/* Email icon */}
               <FontAwesomeIcon
                 icon={faEnvelope}
-                className="absolute pl-1 h-5 w-4 text-black/60"
+                className="absolute pl-1 h-5 w-4 dark:text-white text-black/60"
               />
 
               {/* Email input field */}
@@ -301,20 +315,20 @@ function Login() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 dark:text-white border-b-gray-300 outline-none"
               />
             </div>
             <div className="relative flex items-center min-w-[270px]">
               <FontAwesomeIcon
                 icon={faLock}
-                className="absolute pl-1 h-5 w-4 pb-1 text-black/60"
+                className="absolute pl-1 h-5 w-4 pb-1 dark:text-white text-black/60"
               />
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 dark:text-white border-b-gray-300 outline-none"
               />
             </div>
             <button
@@ -327,16 +341,16 @@ function Login() {
             <button
               type="button"
               onClick={() => setIsPasswordRecoveryModalOpen(true)}
-              className=" text-[#315E80] hover:text-gray-400 text-sm rounded-md focus:outline-none "
+              className=" text-[#315E80] dark:text-sky-200 dark:hover:text-gray-400 hover:text-gray-400 text-sm rounded-md focus:outline-none "
             >
               Forgot password?
             </button>
-            <div className="flex mt-2 text-sm flex-col items-center justify-center">
+            <div className="flex mt-2 text-sm flex-col items-center dark:text-white justify-center">
               <p>Don't have an account yet?</p>
               <button
                 type="button"
                 onClick={toggleModal}
-                className="h-10  text-[#315E80] hover:text-gray-400 ml-1 text-sm rounded-md focus:outline-none "
+                className="h-10  text-[#315E80] dark:text-sky-200 dark:hover:text-gray-400 hover:text-gray-400 ml-1 text-sm rounded-md focus:outline-none "
               >
                 Create one
               </button>
@@ -353,7 +367,7 @@ function Login() {
           onClick={toggleModal}
         >
           <div
-            className="bg-[#FFFDFC] relative min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] dark:bg-[#1A1F24] relative min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             {" "}
@@ -373,13 +387,13 @@ function Login() {
             </div>
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <Image
-                src="/ritooallogo.png"
+                src={`/ritooallogo${darkMode ? "white" : ""}.png`}
                 alt="Ritooal Logo"
                 width={300}
                 height={100}
                 className="w-40 mb-3 md:mb-10 md:flex hidden object-contain"
               />
-              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+              <div className="text-2xl font-bold mb-4 dark:text-white text-[#355D7B] text-center">
                 Create your account
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
@@ -387,7 +401,7 @@ function Login() {
                   {/* Email icon */}
                   <FontAwesomeIcon
                     icon={faEnvelope}
-                    className="absolute pl-1 h-5 w-4 text-black/60"
+                    className="absolute pl-1 h-5 w-4 dark:text-white text-black/60"
                   />
 
                   {/* Email input field */}
@@ -396,20 +410,20 @@ function Login() {
                     placeholder="Email"
                     value={emailCreate}
                     onChange={(e) => setEmailCreate(e.target.value)}
-                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 dark:text-white border-b-gray-300 outline-none"
                   />
                 </div>
                 <div className="relative flex items-center min-w-[270px]">
                   <FontAwesomeIcon
                     icon={faLock}
-                    className="absolute pl-1 h-5 w-4 pb-1 text-black/60"
+                    className="absolute pl-1 h-5 w-4 pb-1 dark:text-white text-black/60"
                   />
                   <input
                     type="password"
                     placeholder="Password"
                     value={passwordCreate}
                     onChange={(e) => setPasswordCreate(e.target.value)}
-                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 border-b-gray-300 outline-none"
+                    className="h-10 pl-7 pr-3 bg-transparent w-full border-b-2 dark:text-white border-b-gray-300 outline-none"
                   />
                 </div>
 
@@ -422,7 +436,9 @@ function Login() {
                 </button>
                 <div className="flex w-[267px] mt-6 mb-6 items-center justify-center">
                   <div className="flex-grow h-px bg-gray-300"></div>
-                  <p className="mx-2 text-sm text-gray-600 ml-5 mr-5">or</p>
+                  <p className="mx-2 text-sm text-gray-600 ml-5 mr-5 dark:text-white">
+                    or
+                  </p>
                   <div className="flex-grow h-px bg-gray-300"></div>
                 </div>
                 <button
@@ -444,7 +460,7 @@ function Login() {
           onClick={() => setIsPasswordRecoveryModalOpen(false)}
         >
           <div
-            className="bg-[#FFFDFC] min-w-[300px] relative min-h-[300px] max-w-3xl p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] dark:bg-[#1A1F24] min-w-[300px] relative min-h-[300px] max-w-3xl p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             {" "}
@@ -462,7 +478,7 @@ function Login() {
               className="w-48 md:w-72 mb-3 md:mb-10 flex object-contain"
             />
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
-              <div className="text-2xl font-bold mb-4 text-[#355D7B] text-center">
+              <div className="text-2xl font-bold mb-4 text-[#355D7B] dark:text-white text-center">
                 Reset Your Password
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
@@ -470,7 +486,7 @@ function Login() {
                   {/* Email icon */}
                   <FontAwesomeIcon
                     icon={faEnvelope}
-                    className="absolute pl-1 h-5 w-4 text-black/60"
+                    className="absolute pl-1 h-5 w-4 dark:text-white text-black/60"
                   />
 
                   {/* Email input field */}

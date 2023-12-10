@@ -14,9 +14,26 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { useDarkMode } from "../contexts/DarkModeProvider";
+import "sweetalert2/src/sweetalert2.scss"; // Default SweetAlert2 style
+// import "@sweetalert2/theme-dark/dark.css"; // Dark theme
 
 function Header() {
   const { darkMode, toggleDarkMode } = useDarkMode();
+
+  function showAlert(options) {
+    // Apply the dark theme options only if darkMode is true
+    const swalOptions = darkMode
+      ? {
+          ...options,
+          customClass: {
+            ...options.customClass,
+            popup: "swal2-dark",
+          },
+        }
+      : options;
+
+    return Swal.fire(swalOptions);
+  }
 
   const userId = useBoardStore((state) => state.userId);
   const dropdownRef: any = useRef(null);
@@ -109,7 +126,7 @@ function Header() {
 
       if (!userData.emailVerification) {
         account.deleteSession("current");
-        Swal.fire({
+        showAlert({
           title: "Email Verification Needed",
           text: "Please check your email to verify your account. Click below to resend the verification email.",
           icon: "warning",
@@ -137,25 +154,32 @@ function Header() {
 
   async function resendVerificationEmail() {
     try {
-      await account.createVerification("https://ritooal.com/verify");
-      Swal.fire(
-        "Sent!",
-        "Verification email has been resent. Please check your inbox.",
-        "success"
-      ).then(() => {
+      const result = await account.createVerification(
+        "https://ritooal.com/verify"
+      );
+
+      console.log(result);
+      showAlert({
+        title: "Sent!",
+        text: "Verification email has been resent. Please check your inbox.",
+        icon: "success",
+      }).then(() => {
+        // The then() is used here assuming showAlert returns Swal.fire()
         account.deleteSession("current");
         setUser(null);
         window.location.href = "/";
       });
     } catch (error) {
       console.error(error);
-      Swal.fire("Error", "Failed to resend verification email.", "error").then(
-        () => {
-          account.deleteSession("current");
-          setUser(null);
-          window.location.href = "/";
-        }
-      );
+      console.log(error);
+      showAlert({
+        title: "Error",
+        text: "Failed to resend verification email.",
+        icon: "error",
+      });
+      account.deleteSession("current");
+      setUser(null);
+      window.location.href = "/";
     }
   }
 
@@ -214,7 +238,7 @@ function Header() {
   }
 
   const deleteAccount = async () => {
-    Swal.fire({
+    showAlert({
       title: "Are you sure?",
       text: "This will delete your account and all your tasks. You won't be able to revert this!",
       icon: "warning",
@@ -243,7 +267,7 @@ function Header() {
           }
 
           // Show success message
-          Swal.fire({
+          showAlert({
             title: "Deleted!",
             text: "Your account has been deleted.",
             icon: "success",
@@ -426,18 +450,20 @@ function Header() {
           onClick={toggleModal}
         >
           <div
-            className="bg-[#FFFDFC] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
+            className="bg-[#FFFDFC] dark:bg-[#272C35] min-w-[300px] min-h-[400px] max-w-3xl  p-8 w-9/12 flex md:flex-row flex-col items-center justify-center rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <div
                 className={`flex flex-col w-full min-w-[352px] items-center justify-between space-y-4`}
               >
-                <div className="text-2xl font-bold text-[#355D7B] text-center">
+                <div className="text-2xl font-bold text-[#355D7B] dark:text-white text-center">
                   Your profile
                 </div>
                 {!isGoogle && (
-                  <p className="font-semibold mb-4">{user.email}</p>
+                  <p className="font-semibold mb-4 dark:text-white">
+                    {user.email}
+                  </p>
                 )}
                 {isGoogle ? (
                   <>
@@ -448,7 +474,9 @@ function Header() {
                   </>
                 ) : (
                   <>
-                    <p className="mb-4 text-md">Change your password</p>
+                    <p className="mb-4 text-md dark:text-white">
+                      Change your password
+                    </p>
                     <form className="flex flex-col items-center w-9/12 space-y-4">
                       <input
                         type="password"
@@ -475,7 +503,7 @@ function Header() {
                   </>
                 )}
                 <p
-                  className="mt-4 md:flex hidden font-light cursor-pointer"
+                  className="mt-4 md:flex hidden dark:text-white font-light cursor-pointer"
                   onClick={deleteAccount}
                 >
                   Delete account

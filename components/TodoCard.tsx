@@ -53,6 +53,20 @@ function TodoCard({
   const deleteTask = useBoardStore((state) => state.deleteTask);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  function showAlert(options) {
+    const swalOptions = darkMode
+      ? {
+          ...options,
+          customClass: {
+            ...options.customClass,
+            popup: "swal2-dark",
+          },
+        }
+      : options;
+
+    return Swal.fire(swalOptions);
+  }
+
   useEffect(() => {
     if (todo.image) {
       const fetchImage = async () => {
@@ -113,7 +127,7 @@ function TodoCard({
       event.stopPropagation();
     }
 
-    Swal.fire({
+    showAlert({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -125,7 +139,7 @@ function TodoCard({
     }).then((result) => {
       if (result.isConfirmed) {
         deleteTask(index, todo, id);
-        Swal.fire({
+        showAlert({
           title: "Deleted!",
           text: "Your task has been deleted.",
           icon: "success",
@@ -216,7 +230,7 @@ function TodoCard({
       swalOptions.imageAlt = "Task image";
     }
 
-    Swal.fire(swalOptions).then((result) => {
+    showAlert(swalOptions).then((result) => {
       if (result.isConfirmed) {
         // Handle 'OK' button action
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -233,11 +247,11 @@ function TodoCard({
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
     const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/gif"];
 
-    Swal.fire({
+    showAlert({
       title: "Edit Task",
       html: ` 
 
-      <select id="importance-select" class="ml-2 mb-5 border border-gray-300 p-1 rounded-xl">
+      <select id="importance-select" class="ml-2 mb-5 border text-black border-gray-300 p-1 rounded-xl">
       <option value="important" ${
         todo.importance === "important" ? "selected" : ""
       }>Important</option>
@@ -253,7 +267,7 @@ function TodoCard({
 
 
     </select>
-        <textarea id="swal-input1" class="w-full bg-none border-2 border-black/10 rounded-xl h-40 p-5">${
+        <textarea id="swal-input1" class="w-full bg-none text-black border-2 border-black/10 rounded-xl h-40 p-5">${
           todo.title
         }</textarea>
         <div>
@@ -262,8 +276,8 @@ function TodoCard({
       </div>
         <div class="flex items-center flex-col justify-center">
         
-        <div class="w-full border-2 border-black/10 rounded-lg mt-4 hover:bg-neutral-400/10">
-        <button type="button" id="uploadButton" class="py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2">Upload image</p></button>
+        <div class="w-full border-2 border-black/10 dark:border-white rounded-lg mt-4 hover:bg-neutral-400/10">
+        <button type="button" id="uploadButton" class="py-2 px-2 h-[67.78px] w-full text-black rounded-md flex items-center justify-center"><img class="w-[21px] h-[16.5px]" src="/upload.png"/><p class="ml-2 text-black dark:text-white">Upload image</p></button>
         
         </div>
         <div id="imagePreviewContainer" class="flex items-center justify-center mt-2" style="margin-top: 10px; display: none;">
@@ -368,7 +382,7 @@ function TodoCard({
       },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        Swal.fire({
+        showAlert({
           title: "Saved!",
           text: "Your task has been updated.",
           icon: "success",

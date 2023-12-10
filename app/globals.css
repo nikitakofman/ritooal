@@ -77,3 +77,8 @@ body {
 .swal2-close:hover {
   color: #9d9d9d;
 }
+
+.swal2-popup.swal2-dark {
+  background-color: #272c35; /* Your custom background color for dark mode */
+  color: white;
+}
