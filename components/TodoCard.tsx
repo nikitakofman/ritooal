@@ -28,15 +28,15 @@ type Props = {
 function getCardColor(importance) {
   switch (importance) {
     case "important":
-      return "bg-[#e09c98] dark:bg-[#88304E] dark:text-white"; // or any red shade
+      return "border-l-[20px] border-[#e09c98] dark:border-[#88304E] bg-white dark:bg-[#6E7881] dark:text-white"; // Red border for "important"
     case "semi-important":
-      return "bg-[#e8d3a2] dark:bg-[#B0A565] dark:text-white"; // or any orange shade
+      return "border-l-[20px] border-[#e8d3a2] dark:border-[#B0A565] bg-white dark:bg-[#6E7881] dark:text-white"; // Orange border for "semi-important"
     case "not-important":
-      return "bg-[#B2D4AC] dark:bg-[#3B5349] dark:text-white"; // or any yellow shade
+      return "border-l-[20px] border-[#B2D4AC] dark:border-[#3B5349] bg-white dark:bg-[#6E7881] dark:text-white"; // Green border for "not-important"
     case "no-color":
-      return "bg-white dark:bg-[#6E7881] dark:text-white"; // No color
+      return "border-l-[20px] bg-white dark:bg-[#6E7881] dark:text-white"; // default color
     default:
-      return "bg-white dark:bg-[#6E7881] dark:text-white"; // default color
+      return "border-l-[20px] border-gray-100/50 dark:border-gray-100/20 bg-white dark:bg-[#6E7881] dark:text-white"; // default color
   }
 }
 
@@ -251,7 +251,7 @@ function TodoCard({
       title: "Edit Task",
       html: ` 
 
-      <select id="importance-select" class="ml-2 mb-5 border text-black border-gray-300 p-1 rounded-xl">
+      <select id="importance-select" class="ml-2 mb-5 border-b bg-transparent text-black border-gray-300 p-1 dark:text-white">
       <option value="important" ${
         todo.importance === "important" ? "selected" : ""
       }>Important</option>
@@ -267,7 +267,7 @@ function TodoCard({
 
 
     </select>
-        <textarea id="swal-input1" class="w-full bg-none text-black border-2 border-black/10 rounded-xl h-40 p-5">${
+        <textarea id="swal-input1" class="w-full bg-none text-black border-2 border-black/10 focus:outline-none outilne-none rounded-xl h-40 p-5">${
           todo.title
         }</textarea>
         <div>
@@ -402,7 +402,7 @@ function TodoCard({
     <div
       className={`group ${getCardColor(
         todo.importance
-      )} hover:bg-[#365C7E]/10 rounded-md space-y-2 drop-shadow-md`}
+      )} hover:bg-[#365C7E]/10 dark:hover:bg-white/10 rounded-md space-y-2 drop-shadow-md`}
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}

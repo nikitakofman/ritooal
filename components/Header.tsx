@@ -167,12 +167,10 @@ function Header() {
         text: "Verification email has been resent. Please check your inbox.",
         icon: "success",
         confirmButtonColor: "#3085d6",
-      }).then(() => {
-        // The then() is used here assuming showAlert returns Swal.fire()
-        account.deleteSession("current");
-        setUser(null);
-        window.location.href = "/";
       });
+      account.deleteSession("current");
+      setUser(null);
+      window.location.href = "/";
     } catch (error) {
       console.error(error);
       console.log(error);
@@ -363,7 +361,7 @@ function Header() {
           </div>
           <div className="w-full">
             <div className="flex flex-wrap items-center space-x-5 flex-1 justify-center w-full">
-              <form className="flex items-center space-x-5 bg-white dark:bg-[#454847]  rounded-md border-2 dark:border-[#77777F] shadow-md flex-1 md:flex-initial">
+              <form className="flex items-center space-x-5 bg-white dark:bg-[#1A1F24]  rounded-md border-2 dark:border-[#77777F] shadow-md flex-1 md:flex-initial">
                 <MagnifyingGlassIcon className="h-5 w-5 ml-3 text-gray-400" />
                 <input
                   type="text"

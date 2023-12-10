@@ -90,7 +90,7 @@ function Modal() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Panel className="w-screen max-w-md transform overflow-hidden rounded-md bg-white dark:bg-[#1D2128] p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-screen max-w-md transform overflow-hidden rounded-md bg-white dark:bg-[#272C35] p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 dark:text-white text-gray-900 pb-2"
