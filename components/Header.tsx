@@ -344,19 +344,19 @@ function Header() {
                 className="w-24 md:w-24 pb-3 md:pb-0 object-contain"
               />
             </div>
-            <div className="flex cursor-pointer text-[#345D79] hover:text-neutral-500 ">
+            <div className="flex cursor-pointer text-[#345D79]  ">
               {/* <p className="mr-2 italic flex md:hidden text-[14px]">
                 {user.email}
               </p> */}
               <FontAwesomeIcon
                 onClick={toggleDarkMode}
                 icon={faCircleHalfStroke}
-                className="mr-3 h-5 hover:text-neutral-500 dark:text-white flex md:hidden cursor-pointer"
+                className="mr-3 h-5 hover:text-neutral-500 dark:text-white  dark:hover:text-neutral-300 flex md:hidden cursor-pointer"
               />
 
               <FontAwesomeIcon
                 icon={faUser}
-                className="h-5 w-5 pb-3 flex md:hidden dark:text-white ml-1 pr-5 "
+                className="h-5 w-5 pb-3 flex md:hidden dark:text-white hover:text-neutral-500 dark:hover:text-neutral-300 ml-1 pr-5 "
                 onClick={() => setOpenProfile((prev) => !prev)}
               />
             </div>
@@ -384,13 +384,13 @@ function Header() {
                 <FontAwesomeIcon
                   onClick={toggleDarkMode}
                   icon={faCircleHalfStroke}
-                  className="mr-3 h-5 hover:text-neutral-500 dark:text-white hidden md:flex cursor-pointer"
+                  className="mr-3 h-5 hover:text-neutral-500 dark:text-white dark:hover:text-neutral-300 hidden md:flex cursor-pointer"
                 />
 
                 <FontAwesomeIcon
                   icon={faUser}
                   onClick={() => setOpenProfile((prev) => !prev)}
-                  className="h-5 w-5 hidden hover:text-neutral-500 cursor-pointer dark:text-white md:flex ml-1 pr-5 "
+                  className="h-5 w-5 hidden hover:text-neutral-500 cursor-pointer dark:hover:text-neutral-300 dark:text-white md:flex ml-1 pr-5 "
                 />
               </div>
               {openProfile && (
@@ -523,7 +523,7 @@ function Header() {
               />
             </div>
             <p
-              className="mt-4 md:hidden flex font-light cursor-pointer"
+              className="mt-4 md:hidden flex  dark:text-white font-light cursor-pointer"
               onClick={deleteAccount}
             >
               Delete account

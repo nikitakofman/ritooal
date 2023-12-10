@@ -479,7 +479,7 @@ function Login() {
             />
             <div className="flex flex-col w-full min-w-[352px] items-center justify-center">
               <div className="text-2xl font-bold mb-4 text-[#355D7B] dark:text-white text-center">
-                Reset Your Passwordf
+                Reset Your Password
               </div>
               <form className="flex flex-col items-center w-9/12 space-y-4">
                 <div className="relative flex items-center min-w-[270px]">
